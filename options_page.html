@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+	John Randolph
+	Lakeside school
+	CS5
+	Supreme Bot
+	2017
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" ng-app="supreme">
+
+<head>
+
+	<meta charset="UTF-8">
+	<title>PageLoop</title>
+
+	<!--Handmade stylesheet -->
+	<link rel="stylesheet" type="text/css" href="style.css" />
+
+	<!--Boostrap -->
+	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">	
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+	<!--my js-->
+	<script src="cacheNumLoops.js"></script>
+
+	<!--alertify, for nice looking alerts-->
+	<script src="alertify.js-0.3.11/src/alertify.js"></script>
+
+	<!-- include the core styles-->
+	<link rel="stylesheet" href="alertify.js-0.3.11/themes/alertify.core.css" />
+	<!-- include a theme, can be included into the core instead of 2 separate files -->
+	<link rel="stylesheet" href="alertify.js-0.3.11/themes/alertify.default.css" />
+
+
+	<title>PageLoop</title>
+</head>
+<body ng-controller="mainController as main">
+	<script src="angular.min.js"></script>
+	<script type="text/javascript" src = "AngularApp.js"></script>
+	<h2><span class="makeRed">Page</span><span class="makeGreen">Loop</span></h2>
+
+	<div class="dividerLine"></div>
+
+	<div>
+	<p class="homeMainText">Welcome to <span class="makeRed">Page</span><span class="makeGreen">Loop</span>.</p>
+	<p class="homeMainText">Set your loops below.
+	</div>
+
+	<div class="dividerLine"></div>
+
+	<!-- the form for the user to iput their data -->
+	<div class = "jumbotron col-md-6 col-md-offset-3" id="jumbo">
+		<form method="post" ng-controller="inputController as inputCtrl">
+			<div id="num_loops_div"></div>
+			<div id="bodydiv"></div>
+			<!--<div class = "form-group">
+				<label for="">Number of Loops</label>
+				<select name="num_loops" class = "jr-dropdown" id="num_loops" ng-model="num_loops" ng-init="num_loops = '1'">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+				</select>
+			</div>
+			<div class = "loop_one">
+				<h3>Loop 1</h3>
+				<div class = "form-group">
+					<label>Name</label>
+					<input type="text" name="loop_name" class = "jr-text-box" id="loop_name">
+				</div>
+				<div class = "form-group">
+					<label for="">Number of Pages</label>
+					<select name="num_pages" class = "jr-dropdown" id="num_pages" ng-model="num_pages" ng-init="num_pages = '5'">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+					</select>
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 1">
+					<label>Page 1</label>
+					<input type="text" name="Page 1" class = "jr-text-box" id="page_one">
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 2">
+					<label>Page 2</label>
+					<input type="text" name="Page 2" class = "jr-text-box" id="page_two">
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 3">
+					<label>Page 3</label>
+					<input type="text" name="Page 3" class = "jr-text-box" id="page_three">
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 4">
+					<label>Page 4</label>
+					<input type="text" name="Page 4" class = "jr-text-box" id="page_four">
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 5">
+					<label>Page 5</label>
+					<input type="text" name="Page 5" class = "jr-text-box" id="page_five">
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 6">
+					<label>Page 6</label>
+					<input type="text" name="Page 6" class = "jr-text-box" id="page_six">
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 7">
+					<label>Page 7</label>
+					<input type="text" name="Page 7" class = "jr-text-box" id="page_seven">
+				</div>
+				<div class = "form-group" id = "pg_eight" ng-show = "num_pages.toString() >= 8">
+					<label>Page 8</label>
+					<input type="text" name="Page 8" class = "jr-text-box" id="page_eight">
+				</div>
+				<div class = "form-group" ng-show = "num_pages.toString() >= 9">
+					<label>Page 9</label>
+					<input type="text" name="Page 9" class = "jr-text-box" id="page_nine">
+				</div>
+
+				<div class = "form-group">
+					<input type="button" class="btn btn-primary" value="Save Loops" id="save" />
+					<script src="saveData.js"></script>
+				</div>
+			</div>-->
+			<div class = "form-group" style="text-align:center">
+				<input type="button" class="btn btn-primary" value="Save" id="save" />
+				<script src="saveData.js"></script>
+			</div>
+
+		</form>
+	</div>
+	<div class="dividerLine"></div>
+	<div>
+		<p>This is a project by John Randolph. All rights reserved.</p>
+	</div>
+</html>

@@ -1,0 +1,12 @@
+.jumbotron {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+div {
+	margin: 30px;
+}
+
+h1 {
+	text-align: center;
+}
