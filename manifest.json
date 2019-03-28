@@ -1,44 +1,8 @@
 /**
- * Page Loop, version 1.0
+ * Brown Dining Project, version 1.0
  * 2019
  * project of John Randolph
  *
- * KNOWN BUGS:
- * - boxes have stopped showing up
- * - using timeout in background.js when returning current page
- * - only .com is supported in stripping
- * - can't handle multiple pages of same site
- * - alert when data is saved doesn't always work
- * 
- * TODO:
- * - fix boxes functionality
- * - look up way to make script run on options page (content_script matching not working)
- * - research ways to make html dynamic without php (js?)
- *   - looks like AJAX is the solution, actually not sure
- *   - look into how to inject js <script>s into 
- * - ability to handle non-host names
- * - ability to adjust # of loops
- * - popup displays active loops + hotkey
- * - cosmetic fixes
- * - cleanup / bug fixing
- * - create REAMDE.rst
- * - add to github
- * RELEASE OF VERSION 1
- * - ability to read history for visited sites
- * - ability to see next site from last site
- * - ability to generate top pages, rank
- * - build graph of top pages connections
- * - "autorun" feature in popup + hotkey
- * - "unlikely page" feature in popup + hotkey
- * - hotkeys manual in options_page
- * - cleanup / cosmetic / bug fixing
- * RELEASE OF VERSION 2
- *
- * BACKLOG:
- * - ability to from history choose hotkeys 1-9 for next pages
- * - ability to randomize loops
- * - ability to set chance of pages in loop
- * - ability to autogenerate loops
  */
 
 {
