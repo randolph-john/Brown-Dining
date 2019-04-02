@@ -1,15 +1,3 @@
-// class constant for max number of loops allowed
-var MAX_NUM_LOOPS = 9;
-// class constant for max number of pages per loop allowed
-var MAX_NUM_PAGES = 10;
-
-// cached number of loops
-var NUM_LOOPS = 1;
-// cached number of pages for each loop
-var NUM_PAGES = [3];
-// cached array of array of strings
-var PAGES = [];
-
 /**
  * function to push the data to the server
  * alerts when done, successful or unsuccessful, sometimes...
@@ -23,13 +11,13 @@ function pushToServer(data)
       }
     })
     .done(function() {
-      alertify.alert("Successfully saved your loops to the server!");
+      alertify.alert("Successfully saved your foods to the server!");
     })
     .fail(function() {
       alertify.alert("Error");
     })
     .always(function() {
-      //window.alert("Complete");
+      window.alert("Complete");
     });
 }
 
@@ -77,146 +65,11 @@ function saveData() {
 }
 
 /**
- * function to read data from the server and cache it 
- * in the local variables. Updates all local variables from 
- * the server
- */
-function cacheData() {
-  var fields = ['num_loops','num_pages','pages'];
-  chrome.storage.local.get(fields, function(res) {
-    if (res.num_loops != undefined) {
-      NUM_LOOPS = res.num_loops; // int
-      if (res.num_pages != undefined) {
-        NUM_PAGES = res.num_pages; // array of ints
-      } else {
-        NUM_PAGES = [];
-        for (i = 0; i < NUM_LOOPS; i++) {
-          NUM_PAGES.push(3);
-        }
-      }
-    } else {
-      NUM_LOOPS = 1; // int
-      NUM_PAGES = [3]; // array of ints
-    }
-    if (res.pages != undefined) {
-      PAGES = res.pages;
-    }
-  });
-}
-
-/**
- * function to generate the num_loops_div - field for
- * number of loops - and insert it into the page
- */
-function buildNumLoops() {
-  html = "<div class = \"form-group\"><label for=\"\">Number of Loops</label><select name=\"number of Loops\" id=\"num_loops\" class = \"jr-dropdown\" ng-model=\"num_loops\" ng-init=\"num_loops = \'" + NUM_LOOPS + "\'\">";
-  for (i = 1; i <= MAX_NUM_LOOPS; i++) {
-    html = html + "<option value=\"" + i + "\">" + i + "</option>";
-  }
-  html = html + "</select></div>";
-  document.getElementById("num_loops_div").innerHTML = html;
-}
-
-/**
- * function to generate the page - fields for
- * number of pages - and insert it into the page
- */
-function buildNumPages() {
-  html2 = "";
-  for (i = 1; i <= MAX_NUM_PAGES; i++) { // for every loop
-    init = 3;
-    if (NUM_PAGES.length >= i) {
-      init = NUM_PAGES[i-1]
-    }
-    html2 = html2 + "<div class = \"form-group\" ng-show=\"num_loops.toString() >= " + i + "\"><label>Number of pages in loop " + i + "</label><select name=\"number of pages in loop " + i + "\" id=\"num_pages_" + i + "\" class = \"jr-dropdown\" ng-model=\"num_pages_" + i + "\" ng-init=\"num_pages_" + i + " = '" + init + "'\">";
-    for (j = 2; j <= MAX_NUM_PAGES; j++) {
-      html2 = html2 + "<option value=\"" + j + "\">" + j + "</option>";
-    } 
-    html2 = html2 + "</select></div>";
-  }
-  document.getElementById("bodydiv").innerHTML = html2;
-}
-
-/**
- * function to generate the page - fields for
- * number of pages, number of loops, and page
- * names - and insert it into the page
- */
-function buildPage() {
-  html = "";
-  for (i = 1; i <= MAX_NUM_LOOPS; i++) {
-    html = html + "<option value=\"" + i + "\">" + i + "</option>";
-  }
-  html = html + "</select></div>";
-  for (i = 1; i <= MAX_NUM_PAGES; i++) { // for every loop
-    init = 3;
-    if (NUM_PAGES.length >= i) {
-      init = NUM_PAGES[i-1]
-    }
-    html = html + "<div class = \"form-group\" ng-show = \"num_loops.toString() >= " + i + "\"><label>Number of pages in loop " + i + "</label><select name=\"number of pages in loop " + i + "\" id=\"num_pages_" + i + "\" class = \"jr-dropdown\" ng-model=\"num_pages_" + i + "\" ng-init=\"num_pages_" + i + " = '" + init + "'\">";
-    for (j = 2; j <= MAX_NUM_PAGES; j++) {
-      html = html + "<option value=\"" + j + "\">" + j + "</option>";
-    } 
-    html = html + "</select>";
-    for (j = 1; j <= MAX_NUM_PAGES; j++) { // for every page in that loop
-      page_name = "page_" + i + "_" + j;
-      html = html + "<div class = \"form-group\" ng-show = \"num_pages_" + i + ".toString() >= " + j + "\"><label for=\"\">Page " + j + "</label><input name=\"page " + j + " in loop " + i + "\" type=\"text\" id=\"" + page_name + "\" class = \"jr-text-box\"></div>";
-    }
-    html = html + "</div>";
-  }
-  start_num_loops = NUM_LOOPS;
-  html = "<div class = \"form-group\"><label for=\"\">Number of Loops</label><select name=\"number of Loops\" id=\"num_loops\" class = \"jr-dropdown\" ng-model=\"num_loops\" ng-init=\"num_loops = \'" + start_num_loops + "\'\">" + html;
-  document.getElementById("bodydiv").innerHTML = html;
-}
-
-/**
- * function to autofill the number of loops
- */
-function restoreNumLoops() {
-  document.getElementById("num_loops").value = NUM_LOOPS;
-}
-
-/**
- * function to autofill the page loop names
- * and field for number of pages
- */
-function restorePages() {
-  document.getElementById("num_loops").value = NUM_LOOPS;
-  for (i = 0; i < PAGES.length; i++) { // for every loop
-    document.getElementById(("num_pages_" + (i+1))).value = NUM_PAGES[i];
-    for (j = 0; j < PAGES[i].length; j++) { // for every page in that loop
-      page_name = "page_" + (i+1) + "_" + (j+1);
-      document.getElementById(page_name).value = PAGES[i][j];
-    }
-  }
-}
-
-/**
  * function that is called when the options page is loaded. It:
  * - caches all data stored in the server
  * - generates the html to be injected and injects it
  */
 function onLoad() {
-  // want to:
-  // - cache
-  // - build numLoops
-  // - restore numLoops - don't need?
-  // - build numPages
-  // - restore numPages
-  // - build pages
-  // - restore pages
-  cacheData(); // caches all data in chrome storage to local
-  buildNumLoops();
-  /*setTimeout(function() {
-    restoreNumLoops(); // autofills the number of loops
-  }, 200);*/
-  setTimeout(function() {
-    buildNumPages();
-  }, 200);
-  /*buildPage(); // generates & injects the HTML and autofills num_loops and num_pages_i
-  setTimeout(function() {
-    restorePages(); // autofills all the pages
-  }, 200);*/
 }
 
 document.addEventListener('DOMContentLoaded', onLoad);
