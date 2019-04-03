@@ -5,10 +5,45 @@ var Eatery = {
 	VDUB: 3,
 	BLUE: 4,
 	IVY: 5,
-	JOS: 6
-}
+	JOS: 6,
+	properties: {
+		1 : {name: "the Ratty"},
+		2 : {name: "Andrews"},
+		3 : {name: "the V-Dub"},
+		4 : {name: "the Blue Room"},
+		5 : {name: "the Ivy Room"},
+		6 : {name: "Josiah's"}
+	}
+};
 
 var items;
+
+/**
+ * function to send a desktop notification to the user
+ * item: the food item
+ * eatery: the eatery where it is - must be Eatery Enum
+ * time: breakfast, lunch, dinner
+ */
+function notify(item, time, eatery) {
+	if (!Notification) {
+		alert('Desktop notifications not available in your browser. Try Chromium.'); 
+		return;
+	}
+
+	if (Notification.permission !== "granted")
+		Notification.requestPermission();
+	else {
+		var notification = new Notification('Brown Dining Alert', {
+			// TODO: update this icon
+			icon: "icon.png",
+			body: ("Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + time),
+		});
+		notification.onclick = function () {
+			//TODO: change this to the appropriate menu
+			getURL(eatery);
+		};
+	}
+}
 
 /*
  * scrapes and returns the raw html from the page whose URL is passed in
@@ -116,6 +151,7 @@ function checkItem(eatery, item, day) {
  * function to scrape
  */
 function scrape() {
+	notify("pancakes", "breakfast", Eatery.RATTY);
 	console.log("scraping");
 	console.log(checkItem(Eatery.RATTY,"pancakes",3));
 }

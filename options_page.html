@@ -32,6 +32,9 @@
 	<!--alertify, for nice looking alerts-->
 	<script src="alertify.js-0.3.11/src/alertify.js"></script>
 
+	<!--scraping script-->
+	<script src="scrape.js"></script>
+
 	<!-- include the core styles-->
 	<link rel="stylesheet" href="alertify.js-0.3.11/themes/alertify.core.css" />
 	<!-- include a theme, can be included into the core instead of 2 separate files -->
@@ -42,15 +45,14 @@
 <body ng-controller="mainController as main">
 	<script src="angular.min.js"></script>
 	<script type="text/javascript" src = "AngularApp.js"></script>
-	<h2>Brown Dining Service</h2>
+	<h2><span style="font-family:Helvetica">Brown Dining Alert</span><span style="color:#cccccc;font-size:22px;font-family:Verdana;font-weight:bold"> BETA</span></h2>
 
 	<div class="dividerLine"></div>
 
 	<div>
 	<p class="homeMainText">Welcome to Brown Dining Service.</p>
 	<p class="homeMainText">There are no foods at this point.
-    <button id="scrape-btn">set foods</button>
-	<script src="scrape.js"></script>
+    <button id="scrape-btn">scrape</button>
 	</div>
 	<div class="dividerLine"></div>
 	<div>
