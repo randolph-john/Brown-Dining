@@ -8,6 +8,8 @@ var Eatery = {
 	JOS: 6
 }
 
+var items;
+
 /*
  * scrapes and returns the raw html from the page whose URL is passed in
  * url: the url to grab, as a string
@@ -23,8 +25,6 @@ function scrapePage(url, day) {
 	xhr.overrideMimeType('text/plain; charset=x-user-defined');
 
 	var rawHTML = "";
-
-	var items;
 
 	xhr.onreadystatechange = function(e) {
 	  if (this.readyState == 4 && this.status == 200) {
@@ -56,14 +56,14 @@ function scrapePage(url, day) {
     		items[i] = items[i].replace("</div>","");
     		items[i] = items[i].trim();
     	}
-    	for (var i = 0; i < items.length; i++) {
+    	/*for (var i = 0; i < items.length; i++) {
     		console.log(items[i]);
-    	}
+    	}*/
+    	console.log("onreadystatechange called");
 	  }
 	};
 
 	xhr.send();
-	return items;
 };
 
 /*
@@ -73,7 +73,7 @@ function scrapePage(url, day) {
  */
 function getURL(eatery) {
 	if (eatery == Eatery.RATTY) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/239717';
+		return 'https://legacy.cafebonappetit.com/weekly-menu/245145';
 	} else if (eatery == Eatery.ANDREWS) {
 		return 'https://legacy.cafebonappetit.com/weekly-menu/241433';
 	} else if (eatery == Eatery.VDUB) {
@@ -97,7 +97,13 @@ function getURL(eatery) {
  */
 function checkItem(eatery, item, day) {
 	url = getURL(eatery);
-	page = scrape(url, day);
+	scrapePage(url, day);
+	var now = new Date().getTime();
+	var millisecondsToWait = 1000; /* i.e. 1 second */
+	while ( new Date().getTime() < now + millisecondsToWait ){}
+	page = items;
+	console.log("the type is" + typeof(page));
+	console.log(page);
 	for (var i = 0; i < page.length; i++) {
 		if (page[i].includes(item) && page[i].startsWith(day.toString())) {
 			return page[i+1].substring(2,3);
@@ -110,17 +116,17 @@ function checkItem(eatery, item, day) {
  * function to scrape
  */
 function scrape() {
+	console.log("scraping");
 	console.log(checkItem(Eatery.RATTY,"pancakes",3));
 }
 
-document.getElementById('scrape-btn').onclick = scrape;
+//document.getElementById('scrape-btn').onclick = scrape();
 
 //alternate way to do thing onclick
-/*document.addEventListener('DOMContentLoaded', function()
+document.addEventListener('DOMContentLoaded', function()
 {
     var link = document.getElementById('scrape-btn');
     link.addEventListener('click', function() {
-    	alert("inasdf");
-        notify("a","b","c");
+		scrape();
     });
-});*/
+});
