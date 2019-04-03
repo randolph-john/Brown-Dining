@@ -39,7 +39,6 @@ function notify(item, time, eatery) {
 			body: ("Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + time),
 		});
 		notification.onclick = function () {
-			//TODO: change this to the appropriate menu
 			getURL(eatery);
 		};
 	}
