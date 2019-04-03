@@ -121,6 +121,8 @@ function expandMeal(short) {
 		return "brunch";
 	} else	if (short == 'Ln') {
 		return "late night";
+	} else	if (short == 'L, D') {
+		return "lunch and dinner";
 	}
 }
 
@@ -130,7 +132,6 @@ function expandMeal(short) {
 function getItems(callback,page) {
 	var fields = ['food'];
     chrome.storage.local.get(fields, function(res) {
-    	console.log(res.food);
     	foods = res.food.split(",");
     	callback(page, foods);
 	});
@@ -144,23 +145,18 @@ function getItems(callback,page) {
  * return: void if not found, else the time of day
  */
 function checkItem(page, foods) {
-	console.log("in checkItem");
-	console.log("foods is:");
-	console.log(foods);
-	console.log("page is:");
-	console.log(page);
 	var d = new Date();
 	var day = d.getDay();
 	if (day == 0) {
 		day = 7;
 	}
-	console.log("day is "+day);
 	for (index in foods) {
 		var item = foods[index];
-		console.log("item is " + item);
 		for (var i = 0; i < page.length; i++) {
 			if (page[i].includes(item) && page[i].startsWith(day.toString())) {
-				notify(item, page[i+1].substring(2,3), Eatery.RATTY);
+				meal = page[i+1].substring(1, page[i+1].length);
+				meal = meal.replace("[","").replace("]","");
+				notify(item, meal, Eatery.RATTY);
 			}
 		}
 	}
