@@ -48,7 +48,7 @@ function notify(item, time, eatery) {
  * day: the day of the week, as an int (1-7)
  * return: array in the form: even numbered indices are dayNum+food, odd numbered indices are dayNum+[Meal]
  */
- function scrapePage(url, callback) {
+ function scrapePage(url, callback, eatery) {
 
 	$.get(url, function(response) {
 	    var binStr = response;
@@ -78,7 +78,7 @@ function notify(item, time, eatery) {
     		items[i] = items[i].replace("</div>","");
     		items[i] = items[i].trim();
     	}
-    	getItems(callback, items);
+    	getItems(callback, items, eatery);
    });
 };
 
@@ -91,15 +91,15 @@ function getURL(eatery) {
 	if (eatery == Eatery.RATTY) {
 		return 'https://legacy.cafebonappetit.com/weekly-menu/245145';
 	} else if (eatery == Eatery.ANDREWS) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/241433';
+		return 'https://legacy.cafebonappetit.com/weekly-menu/241434';
 	} else if (eatery == Eatery.VDUB) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/239876';
+		return 'https://legacy.cafebonappetit.com/weekly-menu/243669';
 	} else if (eatery == Eatery.BLUE) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/245495';
+		return 'https://legacy.cafebonappetit.com/weekly-menu/244723';
 	} else if (eatery == Eatery.IVY) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/239716';
+		return 'https://legacy.cafebonappetit.com/weekly-menu/240612';
 	} else if (eatery == Eatery.JOS) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/240101';
+		return 'https://legacy.cafebonappetit.com/weekly-menu/246875';
 	} else {
 		throw "getURL of eatery is broken. Eatery passed in is likely not an Eatery Enum";
 	}
@@ -123,17 +123,19 @@ function expandMeal(short) {
 		return "late night";
 	} else	if (short == 'L, D') {
 		return "lunch and dinner";
+	} else {
+		console.log("error expanding meal. Could not expand " + short);
 	}
 }
 
 /*
  * function to grab, parse, and return what foods the user has saved
  */
-function getItems(callback,page) {
+function getItems(callback,page, eatery) {
 	var fields = ['food'];
     chrome.storage.local.get(fields, function(res) {
     	foods = res.food.split(",");
-    	callback(page, foods);
+    	callback(page, foods, eatery);
 	});
 }
 
@@ -144,7 +146,7 @@ function getItems(callback,page) {
  * day: the day to check (should be today)
  * return: void if not found, else the time of day
  */
-function checkItem(page, foods) {
+function checkItem(page, foods, eatery) {
 	var d = new Date();
 	var day = d.getDay();
 	if (day == 0) {
@@ -154,13 +156,19 @@ function checkItem(page, foods) {
 		var item = foods[index];
 		for (var i = 0; i < page.length; i++) {
 			if (page[i].includes(item) && page[i].startsWith(day.toString())) {
-				meal = page[i+1].substring(1, page[i+1].length);
-				meal = meal.replace("[","").replace("]","");
-				notify(item, meal, Eatery.RATTY);
+				meal = page[i+1];
+				meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
+				//meal = meal.replace("[","").replace("]","");
+				food = page[i].substring(1,page[i].length);
+				notify(food, meal, eatery);
+				chrome.runtime.sendMessage({gretting: "hello", f: food, m: meal, e: eatery}, function(response) {
+
+				});
 			}
 		}
 	}
 }
+
 
 /*
  * function to scrape
@@ -169,7 +177,7 @@ function scrape() {
 	var Eateries = [Eatery.RATTY, Eatery.ANDREWS, Eatery.VDUB, Eatery.BLUE, Eatery.IVY, Eatery.JOS]
 	for (eatery in Eateries) {
 		url = getURL(Eateries[eatery]);
-		scrapePage(url, checkItem);
+		scrapePage(url, checkItem, Eateries[eatery]);
 	}
 }
 

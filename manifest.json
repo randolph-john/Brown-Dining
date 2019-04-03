@@ -8,11 +8,17 @@
  * - communicate with a sinlge tile each morning + list onclick
  * - how to deal with no wifi
  *
- * Design to implement:
- * - scrape.js: once a day, on certain time (or first time when laptop is opened), clear popup.html + use function in background to update foods on popup.html
- * - background.js:
- *    - function to grab list of foods to look for from local service
- *    - function to for each page, scrape it and grab if food appears in it for all food. save data to local data and push alerts
+ * TODO:
+ * - fix urls so that they map to actual every week URLs
+ * - update foods on the popup
+ * - make scrape run once per day when starting up computer
+ * - add on/off checkbox for desktop alerts
+ * - clean up basic UI on buttons/textbox
+ * - contingency plan for no WIFI
+ * - bug fixing
+ * - release version 1
+ * - obtain list of all foods at all dining halls
+ * - fix UI of putting in food preferences
  */
 
 {
