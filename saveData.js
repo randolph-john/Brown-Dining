@@ -34,4 +34,12 @@ function saveData() {
   });
 }
 
+// save data when save button is clicked on
 document.getElementById('save-btn').onclick = saveData;
+
+document.addEventListener('DOMContentLoaded', function()
+{
+  chrome.storage.local.get(['food'], function(res) {
+    document.getElementById('foodInput').value = res.food;
+  });
+});

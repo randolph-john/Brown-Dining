@@ -1,9 +1,3 @@
-function getLoopNames() {
-  var fields = ['ratty'];
-    chrome.storage.local.get(fields, function(res) {
-  });
-}
-
 /*
  * opens the options page onclick
  */
