@@ -1,3 +1,4 @@
+// class constant for the Eateries
 var Eatery = {
 	RATTY: 1,
 	ANDREWS: 2,
@@ -66,6 +67,28 @@ function scrapePage(url, day) {
 };
 
 /*
+ * function to get URL based on eatery
+ * eatery: the eatery
+ * return: the url, as a string
+ */
+function getURL(eatery) {
+	if (eatery == Eatery.RATTY) {
+		return 'https://legacy.cafebonappetit.com/weekly-menu/239717';
+	} else if (eatery == Eatery.ANDREWS) {
+		return 'https://legacy.cafebonappetit.com/weekly-menu/241433';
+	} else if (eatery == Eatery.VDUB) {
+		return 'https://legacy.cafebonappetit.com/weekly-menu/239876';
+	} else if (eatery == Eatery.BLUE) {
+		return 'https://legacy.cafebonappetit.com/weekly-menu/245495';
+	} else if (eatery == Eatery.IVY) {
+		return 'https://legacy.cafebonappetit.com/weekly-menu/239716';
+	} else if (eatery == Eatery.JOS) {
+		return 'https://legacy.cafebonappetit.com/weekly-menu/240101';
+	} else {
+		throw "getURL of eatery is broken. Eatery passed in is likely not an Eatery Enum";
+	}
+}
+/*
  * function to check whether a specific item is available at an eatery at a certain day
  * eatery: the eatery to check
  * item: the item to check
@@ -73,20 +96,7 @@ function scrapePage(url, day) {
  * return: void if not found, else the time of day
  */
 function checkItem(eatery, item, day) {
-	url = "";
-	if (eatery == Eatery.RATTY) {
-		url = 'https://legacy.cafebonappetit.com/weekly-menu/239717';
-	} else if (eatery == Eatery.ANDREWS) {
-		url = 'https://legacy.cafebonappetit.com/weekly-menu/241433';
-	} else if (eatery == Eatery.VDUB) {
-		url = 'https://legacy.cafebonappetit.com/weekly-menu/239876';
-	} else if (eatery == Eatery.BLUE) {
-		url = 'https://legacy.cafebonappetit.com/weekly-menu/245495';
-	} else if (eatery == Eatery.IVY) {
-		url = 'https://legacy.cafebonappetit.com/weekly-menu/239716';
-	} else if (eatery == Eatery.JOS) {
-		url = 'https://legacy.cafebonappetit.com/weekly-menu/240101';
-	}
+	url = getURL(eatery);
 	page = scrape(url, day);
 	for (var i = 0; i < page.length; i++) {
 		if (page[i].includes(item) && page[i].startsWith(day.toString())) {
@@ -96,6 +106,9 @@ function checkItem(eatery, item, day) {
 	return null;
 }
 
+/*
+ * function to scrape
+ */
 function scrape() {
 	console.log(checkItem(Eatery.RATTY,"pancakes",3));
 }
