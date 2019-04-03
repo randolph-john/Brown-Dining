@@ -34,7 +34,7 @@ function notify(item, time, eatery) {
 		var notification = new Notification('Brown Dining Alert', {
 			// TODO: update this icon
 			icon: "icon.png",
-			body: ("Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + time),
+			body: ("Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + expandMeal(time)),
 		});
 		notification.onclick = function () {
 			window.open(getURL(eatery));
@@ -102,6 +102,25 @@ function getURL(eatery) {
 		return 'https://legacy.cafebonappetit.com/weekly-menu/240101';
 	} else {
 		throw "getURL of eatery is broken. Eatery passed in is likely not an Eatery Enum";
+	}
+}
+
+/* 
+ * function that converts characters to full strings
+ * shortKey: the short key to be converted
+ * return: the longer version of the name
+ */
+function expandMeal(short) {
+	if (short == 'B') {
+		return "breakfast";
+	} else if (short == 'L') {
+		return "lunch";
+	} else if (short == 'D') {
+		return "dinner";
+	} else if (short == 'Br') {
+		return "brunch";
+	} else	if (short == 'LN') {
+		return "late night";
 	}
 }
 /*
