@@ -16,8 +16,6 @@ var Eatery = {
 	}
 };
 
-var items;
-
 /**
  * function to send a desktop notification to the user
  * item: the food item
@@ -39,7 +37,7 @@ function notify(item, time, eatery) {
 			body: ("Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + time),
 		});
 		notification.onclick = function () {
-			getURL(eatery);
+			window.open(getURL(eatery));
 		};
 	}
 }
@@ -50,21 +48,11 @@ function notify(item, time, eatery) {
  * day: the day of the week, as an int (1-7)
  * return: array in the form: even numbered indices are dayNum+food, odd numbered indices are dayNum+[Meal]
  */
-function scrapePage(url, day) {
+ function scrapePage(url, callback) {
 
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', url, true);
-
-	// Hack to pass bytes through unprocessed.
-	xhr.overrideMimeType('text/plain; charset=x-user-defined');
-
-	var rawHTML = "";
-
-	xhr.onreadystatechange = function(e) {
-	  if (this.readyState == 4 && this.status == 200) {
-	    var binStr = this.responseText;
-    	rawHTML += binStr;
-    	var arr = rawHTML.split("\n");
+	$.get(url, function(response) {
+	    var binStr = response;
+    	var arr = binStr.split("\n");
 
     	var dayNum = 1;
     	for (var i = 0; i < arr.length; i++) {
@@ -76,7 +64,7 @@ function scrapePage(url, day) {
     		}
     		arr[i] = arr[i].replace("<strong>","<strong>"+dayNum);
     	}
-    	items = arr.filter(function(line) {
+    	var items = arr.filter(function(line) {
     		return line.includes("<strong>") && !line.includes("<span class=\"collapsed\">");
     	});
     	for (var i = 0; i < items.length; i++) {
@@ -90,14 +78,8 @@ function scrapePage(url, day) {
     		items[i] = items[i].replace("</div>","");
     		items[i] = items[i].trim();
     	}
-    	/*for (var i = 0; i < items.length; i++) {
-    		console.log(items[i]);
-    	}*/
-    	console.log("onreadystatechange called");
-	  }
-	};
-
-	xhr.send();
+    	callback(items);
+   });
 };
 
 /*
@@ -129,32 +111,26 @@ function getURL(eatery) {
  * day: the day to check (should be today)
  * return: void if not found, else the time of day
  */
-function checkItem(eatery, item, day) {
-	url = getURL(eatery);
-	scrapePage(url, day);
-	var now = new Date().getTime();
-	var millisecondsToWait = 1000; /* i.e. 1 second */
-	while ( new Date().getTime() < now + millisecondsToWait ){}
-	page = items;
-	console.log("the type is" + typeof(page));
-	console.log(page);
+function checkItem(page) {
+	var d = new Date();
+	var day = d.getDay()+1;
+	item = "pancakes";
 	for (var i = 0; i < page.length; i++) {
 		if (page[i].includes(item) && page[i].startsWith(day.toString())) {
-			return page[i+1].substring(2,3);
+			notify(item, page[i+1].substring(2,3), Eatery.RATTY);
 		}
 	}
-	return null;
 }
 
 /*
  * function to scrape
  */
 function scrape() {
-	notify("pancakes", "breakfast", Eatery.RATTY);
-	console.log("scraping");
-	console.log(checkItem(Eatery.RATTY,"pancakes",3));
+	url = getURL(Eatery.RATTY);
+	scrapePage(url, checkItem);
 }
 
+//alternate way to do thing onclick
 //document.getElementById('scrape-btn').onclick = scrape();
 
 //alternate way to do thing onclick
