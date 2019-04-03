@@ -170,8 +170,11 @@ function checkItem(page, foods) {
  * function to scrape
  */
 function scrape() {
-	url = getURL(Eatery.RATTY);
-	scrapePage(url, checkItem);
+	var Eateries = [Eatery.RATTY, Eatery.ANDREWS, Eatery.VDUB, Eatery.BLUE, Eatery.IVY, Eatery.JOS]
+	for (eatery in Eateries) {
+		url = getURL(Eateries[eatery]);
+		scrapePage(url, checkItem);
+	}
 }
 
 //alternate way to do thing onclick
