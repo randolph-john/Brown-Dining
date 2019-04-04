@@ -158,7 +158,6 @@ function checkItem(page, foods, eatery) {
 			if (page[i].includes(item) && page[i].startsWith(day.toString())) {
 				meal = page[i+1];
 				meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
-				//meal = meal.replace("[","").replace("]","");
 				food = page[i].substring(1,page[i].length);
 				notify(food, meal, eatery);
 				chrome.runtime.sendMessage({gretting: "hello", f: food, m: meal, e: eatery}, function(response) {
