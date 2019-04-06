@@ -22,8 +22,25 @@ var Eatery = {
  */
 function inject(item, time, eatery) {
 	//TODO: change this so that it grabs data from chrome storage, formats correctly the foods and puts them all in
-	html = "Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + time;
-	document.getElementById("foodInject").textContent += html;
+
+	html = "";
+
+	var fields = ["the Ratty", "Andrews", "the V-Dub", "the Blue Room", "the Ivy Room", "Josiah's"];
+    chrome.storage.local.get(fields, function(res) {
+    	// for every eatery
+    	for (var i = 0; i < fields.length; i++) {
+    		// for every saved food in every eatery
+    		if (res[fields[i]] != undefined) {
+        		html += "<strong>" + fields[i] + ": </strong>";
+	    		html += res[fields[i]];
+	    		html += "<br>";
+    		}
+
+    	}
+		document.getElementById("foodInject").innerHTML += html;
+	});
+
+	//html = "Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + time;
 }
 
 chrome.runtime.onMessage.addListener(

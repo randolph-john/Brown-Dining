@@ -152,20 +152,33 @@ function checkItem(page, foods, eatery) {
 	if (day == 0) {
 		day = 7;
 	}
-	for (index in foods) {
-		var item = foods[index];
-		for (var i = 0; i < page.length; i++) {
-			if (page[i].includes(item) && page[i].startsWith(day.toString())) {
-				meal = page[i+1];
-				meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
-				food = page[i].substring(1,page[i].length);
-				notify(food, meal, eatery);
-				chrome.runtime.sendMessage({gretting: "hello", f: food, m: meal, e: eatery}, function(response) {
+	var data = {};//field input will go in here
+	data[Eatery.properties[eatery].name] = "";
+	chrome.storage.local.set(data, function () {
+		for (index in foods) {
+			var item = foods[index];
+			for (var i = 0; i < page.length; i++) {
+				console.log(page[i]);
+				if (page[i].includes(item) && page[i].startsWith(day.toString())) {
+					meal = page[i+1];
+					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
+					food = page[i].substring(1,page[i].length);
+					notify(food, meal, eatery);
+					//TODO: change this to recording which foods are found, then move to a single storage update at the end of the for loop  
+					var fields = [Eatery.properties[eatery].name];
+				    chrome.storage.local.get(fields, function(res) {
+						var data = {};//field input will go in here
+						var addString = "" + food + " available at " + expandMeal(meal) + ". ";
+						data[Eatery.properties[eatery].name] = res[Eatery.properties[eatery].name] + addString;
+						chrome.storage.local.set(data, function () {
+							//once storage has been saved
+						});
+					});
 
-				});
+				}
 			}
 		}
-	}
+	});
 }
 
 
@@ -175,6 +188,8 @@ function checkItem(page, foods, eatery) {
 function scrape() {
 	var Eateries = [Eatery.RATTY, Eatery.ANDREWS, Eatery.VDUB, Eatery.BLUE, Eatery.IVY, Eatery.JOS]
 	for (eatery in Eateries) {
+		//first clear the saved data about this eatery
+		//now perform the scrape of that eatery
 		url = getURL(Eateries[eatery]);
 		scrapePage(url, checkItem, Eateries[eatery]);
 	}
