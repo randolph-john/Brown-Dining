@@ -112,17 +112,17 @@ function getURL(eatery) {
  */
 function expandMeal(short) {
 	if (short == 'B') {
-		return "breakfast";
+		return "Breakfast";
 	} else if (short == 'L') {
-		return "lunch";
+		return "Lunch";
 	} else if (short == 'D') {
-		return "dinner";
+		return "Dinner";
 	} else if (short == 'Br') {
-		return "brunch";
+		return "Brunch";
 	} else	if (short == 'Ln') {
-		return "late night";
+		return "Late night";
 	} else	if (short == 'L, D') {
-		return "lunch and dinner";
+		return "Lunch and dinner";
 	} else {
 		console.log("error expanding meal. Could not expand " + short);
 	}
@@ -155,6 +155,7 @@ function checkItem(page, foods, eatery) {
 	var data = {};//field input will go in here
 	data[Eatery.properties[eatery].name] = "";
 	chrome.storage.local.set(data, function () {
+		var toStore = "";
 		for (index in foods) {
 			var item = foods[index];
 			for (var i = 0; i < page.length; i++) {
@@ -165,19 +166,21 @@ function checkItem(page, foods, eatery) {
 					food = page[i].substring(1,page[i].length);
 					notify(food, meal, eatery);
 					//TODO: change this to recording which foods are found, then move to a single storage update at the end of the for loop  
-					var fields = [Eatery.properties[eatery].name];
-				    chrome.storage.local.get(fields, function(res) {
-						var data = {};//field input will go in here
-						var addString = "" + food + " available at " + expandMeal(meal) + ". ";
-						data[Eatery.properties[eatery].name] = res[Eatery.properties[eatery].name] + addString;
-						chrome.storage.local.set(data, function () {
-							//once storage has been saved
-						});
-					});
+					var addString = "" + food + "," + expandMeal(meal) + ".";
+					toStore += addString;
 
 				}
 			}
 		}
+		var fields = [Eatery.properties[eatery].name];
+	    chrome.storage.local.get(fields, function(res) {
+			var data = {};//field input will go in here
+			//data[Eatery.properties[eatery].name] = res[Eatery.properties[eatery].name] + toStore;
+			data[Eatery.properties[eatery].name] = toStore;
+			chrome.storage.local.set(data, function () {
+				//once storage has been saved
+			});
+		});
 	});
 }
 

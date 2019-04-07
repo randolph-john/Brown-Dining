@@ -11,7 +11,6 @@
  * TODO:
  * - fix specific meal bug
  * - fix urls so that they map to actual every week URLs
- * - update foods on the popup
  * - add links to menus
  * - make scrape run once per day when starting up computer
  * - add on/off checkbox for desktop alerts

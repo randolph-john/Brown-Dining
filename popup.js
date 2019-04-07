@@ -1,5 +1,3 @@
-
-
 var Eatery = {
 	RATTY: 1,
 	ANDREWS: 2,
@@ -31,16 +29,32 @@ function inject(item, time, eatery) {
     	for (var i = 0; i < fields.length; i++) {
     		// for every saved food in every eatery
     		if (res[fields[i]] != undefined) {
-        		html += "<strong>" + fields[i] + ": </strong>";
-	    		html += res[fields[i]];
-	    		html += "<br>";
+    			//fields[i] is the name of the eatery
+    			//res[fields[i]] is the data, separated by periods, with dining time separated by comma
+    			//approach: split by period. Make 
+    			foodSplit = res[fields[i]].split(".");
+    			byMeal = [];
+    			if (foodSplit.length > 1) {
+	    			for (var j = 0; j < foodSplit.length-1; j++) {
+	    				foodTime = foodSplit[j].split(",");
+	    				if (byMeal[foodTime[1]] == null) {
+	    					byMeal[foodTime[1]] = foodTime[0];
+	    				} else {
+	    					byMeal[foodTime[1]] = byMeal[foodTime[1]] + ", " + foodTime[0];
+	    				}
+	    			}
+	    			capped = fields[i].charAt(0).toUpperCase() + fields[i].slice(1)
+		        	html += "<strong><span style='color:blue;font-size:20px'>" + capped + ": </span></strong>";
+	        		for (x in byMeal) {
+	        			html += "<br><strong>" + x + ": </strong>";
+	        			html += byMeal[x] + " ";
+	        		}
+		    		html += "<br>";		
+    			}
     		}
-
     	}
 		document.getElementById("foodInject").innerHTML += html;
 	});
-
-	//html = "Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + time;
 }
 
 chrome.runtime.onMessage.addListener(
