@@ -88,20 +88,17 @@ function notify(item, time, eatery) {
  */
 function getMenuURL(eatery) {
 	url = getURL(eatery);
-	alert("in getMenuURL with url " + url);
 	$.get(url, function(response) {
-		alert("in the function");
 		console.log(response);
 	    var binStr = response;
     	var arr = binStr.split("\n");
 
     	var items = arr.filter(function(line) {
-    		return line.includes("href=\"https:");
+    		return line.includes("hidden-small");
     	});
     	//items is array with only one element - line with url
-    	menuURL = items[0].splice(items[0].indexOf("href")+6, items[0].indexOf("\" target"));
-    	alert("menuURL is" + menuURL);
-		scrapePage(url, checkItem, eatery);
+    	menuURL = items[0].slice(items[0].indexOf("href")+6, items[0].indexOf("target")-2);
+		scrapePage(menuURL, checkItem, eatery);
    });
 
 }
@@ -160,6 +157,7 @@ function getItems(callback,page, eatery) {
 	var fields = ['food'];
     chrome.storage.local.get(fields, function(res) {
     	foods = res.food.split(",");
+    	//this is checkItem
     	callback(page, foods, eatery);
 	});
 }
@@ -186,6 +184,7 @@ function checkItem(page, foods, eatery) {
 			for (var i = 0; i < page.length; i++) {
 				console.log(page[i]);
 				if (page[i].includes(item) && page[i].startsWith(day.toString())) {
+					alert("found " + item);
 					meal = page[i+1];
 					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
 					food = page[i].substring(1,page[i].length);

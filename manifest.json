@@ -13,9 +13,10 @@
  * - fix urls so that they map to actual every week URLs
  * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
- * - add on/off checkbox for desktop alerts
- * - clean up basic UI on buttons/textbox
  * - contingency plan for no WIFI
+ * - add on/off checkbox for desktop alerts
+ * - make text field input for feedback
+ * - clean up basic UI on buttons/textbox
  * - bug fixing
  * - make logo
  *** RELEASE VERSION 1

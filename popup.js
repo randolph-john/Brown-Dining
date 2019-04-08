@@ -65,15 +65,15 @@ function inject() {
 	    				if (byMeal[foodTime[1]] == null) {
 	    					byMeal[foodTime[1]] = foodTime[0];
 	    				} else {
-	    					height += 20;
+	    					height += 22;
 	    					byMeal[foodTime[1]] = byMeal[foodTime[1]] + ", <br>" + foodTime[0];
 	    				}
 	    			}
 	    			capped = fields[i].charAt(0).toUpperCase() + fields[i].slice(1)
-	    			height += 24;
+	    			height += 29;
 		        	html += "<strong><span style='color:blue;font-size:20px' id=\"" + fields[i] + "\"><a>" + capped + "</a></span></strong>";
 	        		for (x in byMeal) {
-	        			height += 20;
+	        			height += 22;
 	        			html += "<br><strong>" + x + ": </strong>";
 	        			html += byMeal[x] + " ";
 	        		}
