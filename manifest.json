@@ -9,16 +9,16 @@
  * - how to deal with no wifi
  *
  * TODO:
- * - fix specific meal bug
+ * - fix specific meal bug (some mealtimes not found)
  * - fix urls so that they map to actual every week URLs
- * - add links to menus
+ * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
  * - add on/off checkbox for desktop alerts
  * - clean up basic UI on buttons/textbox
  * - contingency plan for no WIFI
  * - bug fixing
  * - make logo
- * - release version 1
+ *** RELEASE VERSION 1
  * - obtain list of all foods at all dining halls
  * - fix UI of putting in food preferences
  */

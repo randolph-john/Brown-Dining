@@ -83,23 +83,47 @@ function notify(item, time, eatery) {
 };
 
 /*
+ * function to get url of menu page
+ * eatery: the eatery, as an Enum
+ */
+function getMenuURL(eatery) {
+	url = getURL(eatery);
+	alert("in getMenuURL with url " + url);
+	$.get(url, function(response) {
+		alert("in the function");
+		console.log(response);
+	    var binStr = response;
+    	var arr = binStr.split("\n");
+
+    	var items = arr.filter(function(line) {
+    		return line.includes("href=\"https:");
+    	});
+    	//items is array with only one element - line with url
+    	menuURL = items[0].splice(items[0].indexOf("href")+6, items[0].indexOf("\" target"));
+    	alert("menuURL is" + menuURL);
+		scrapePage(url, checkItem, eatery);
+   });
+
+}
+
+/*
  * function to get URL based on eatery
  * eatery: the eatery
  * return: the url, as a string
  */
 function getURL(eatery) {
 	if (eatery == Eatery.RATTY) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/245145';
+		return 'https://dining.brown.edu/cafe/sharpe-refectory/';
 	} else if (eatery == Eatery.ANDREWS) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/241434';
+		return 'https://dining.brown.edu/cafe/andrews-commons/';
 	} else if (eatery == Eatery.VDUB) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/243669';
+		return 'https://dining.brown.edu/cafe/verney-woolley/';
 	} else if (eatery == Eatery.BLUE) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/244723';
+		return 'https://dining.brown.edu/cafe/blue-room/';
 	} else if (eatery == Eatery.IVY) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/240612';
+		return 'https://dining.brown.edu/cafe/ivy-room/';
 	} else if (eatery == Eatery.JOS) {
-		return 'https://legacy.cafebonappetit.com/weekly-menu/246875';
+		return 'https://dining.brown.edu/cafe/josiahs/';
 	} else {
 		throw "getURL of eatery is broken. Eatery passed in is likely not an Eatery Enum";
 	}
@@ -125,6 +149,7 @@ function expandMeal(short) {
 		return "Lunch and dinner";
 	} else {
 		console.log("error expanding meal. Could not expand " + short);
+		return "Unknown time";
 	}
 }
 
@@ -193,8 +218,7 @@ function scrape() {
 	for (eatery in Eateries) {
 		//first clear the saved data about this eatery
 		//now perform the scrape of that eatery
-		url = getURL(Eateries[eatery]);
-		scrapePage(url, checkItem, Eateries[eatery]);
+		getMenuURL(Eateries[eatery]);
 	}
 }
 

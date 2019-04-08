@@ -16,15 +16,40 @@ var Eatery = {
 };
 
 /*
+ * function to dynamically adjust the size of the popup 
+ */
+function adjustPopupSize(size) {
+	document.getElementById("popup").style.minHeight = "" + size + "px";
+}
+
+/*
+ * function to add links to menus
+ */
+function addLinks() {
+	var URLs = ['https://dining.brown.edu/cafe/sharpe-refectory/','https://dining.brown.edu/cafe/andrews-commons/','https://dining.brown.edu/cafe/verney-woolley/','https://dining.brown.edu/cafe/blue-room/','https://dining.brown.edu/cafe/ivy-room/','https://dining.brown.edu/cafe/josiahs/'];
+	var fields = ["the Ratty", "Andrews", "the V-Dub", "the Blue Room", "the Ivy Room", "Josiah's"];
+	for (var i = 0; i < fields.length; i++) {
+		if (document.getElementById(fields[i])) {
+			theURL = URLs[i];
+		    document.getElementById(fields[i]).addEventListener('click', function() {
+		    	chrome.tabs.create({ url: theURL });
+		    });
+		}
+	}
+}
+
+/*
  * function to inject HTML to popup.html
  */
-function inject(item, time, eatery) {
+function inject() {
 	//TODO: change this so that it grabs data from chrome storage, formats correctly the foods and puts them all in
 
 	html = "";
-
+	var URLs = ['https://dining.brown.edu/cafe/sharpe-refectory/','https://dining.brown.edu/cafe/andrews-commons/','https://dining.brown.edu/cafe/verney-woolley/','https://dining.brown.edu/cafe/blue-room/','https://dining.brown.edu/cafe/ivy-room/','https://dining.brown.edu/cafe/josiahs/'];
 	var fields = ["the Ratty", "Andrews", "the V-Dub", "the Blue Room", "the Ivy Room", "Josiah's"];
     chrome.storage.local.get(fields, function(res) {
+		// height: number of titles*20+number of eateries*12+button size + ?4?
+		var height = 42;
     	// for every eatery
     	for (var i = 0; i < fields.length; i++) {
     		// for every saved food in every eatery
@@ -40,12 +65,15 @@ function inject(item, time, eatery) {
 	    				if (byMeal[foodTime[1]] == null) {
 	    					byMeal[foodTime[1]] = foodTime[0];
 	    				} else {
-	    					byMeal[foodTime[1]] = byMeal[foodTime[1]] + ", " + foodTime[0];
+	    					height += 20;
+	    					byMeal[foodTime[1]] = byMeal[foodTime[1]] + ", <br>" + foodTime[0];
 	    				}
 	    			}
 	    			capped = fields[i].charAt(0).toUpperCase() + fields[i].slice(1)
-		        	html += "<strong><span style='color:blue;font-size:20px'>" + capped + ": </span></strong>";
+	    			height += 24;
+		        	html += "<strong><span style='color:blue;font-size:20px' id=\"" + fields[i] + "\"><a>" + capped + "</a></span></strong>";
 	        		for (x in byMeal) {
+	        			height += 20;
 	        			html += "<br><strong>" + x + ": </strong>";
 	        			html += byMeal[x] + " ";
 	        		}
@@ -53,7 +81,12 @@ function inject(item, time, eatery) {
     			}
     		}
     	}
+    	if (fields.length == 0) {
+    		html = "No foods found today.";
+    	}
 		document.getElementById("foodInject").innerHTML += html;
+		adjustPopupSize(height);
+		addLinks();
 	});
 }
 
@@ -76,4 +109,4 @@ document.addEventListener('DOMContentLoaded', function()
     });
 });
 
-document.addEventListener('DOMContentLoaded', inject("pancakes",'L',Eatery.RATTY));
+document.addEventListener('DOMContentLoaded', inject());
