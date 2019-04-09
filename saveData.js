@@ -4,10 +4,15 @@
 function saveData() {
   var data = {};//field input will go in here
   data['food'] = document.getElementById('foodInput').value;
+  if (document.getElementById('enable_notifications').checked) {
+    data['notifs'] = "on";
+  } else {
+    data['notifs'] = "off";
+  }
   // save to chrome data
   // to save across devices use: chrome.storage.sync.set
   chrome.storage.local.set(data, function () {
-    alertify.alert("Prefernces saved");
+    alertify.alert("Settings saved");
   });
 }
 
@@ -16,7 +21,10 @@ document.getElementById('save-btn').onclick = saveData;
 
 document.addEventListener('DOMContentLoaded', function()
 {
-  chrome.storage.local.get(['food'], function(res) {
+  chrome.storage.local.get(['food','notifs'], function(res) {
     document.getElementById('foodInput').value = res.food;
+    if (res.notifs == "off") {
+      document.getElementById('enable_notifications').checked = false;
+    }
   });
 });

@@ -12,10 +12,10 @@
  * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
  * - contingency plan for no WIFI
- * - add on/off checkbox for desktop alerts
  * - make text field input for feedback
  * - clean up basic UI on buttons/textbox
  * - QA
+ * - change name + description
  * - make logo
  *** RELEASE VERSION 1
  * - obtain list of all foods at all dining halls

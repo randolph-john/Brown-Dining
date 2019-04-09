@@ -155,11 +155,15 @@ function expandMeal(short) {
  * function to grab, parse, and return what foods the user has saved
  */
 function getItems(callback,page, eatery) {
-	var fields = ['food'];
+	var fields = ['food','notifs'];
     chrome.storage.local.get(fields, function(res) {
     	foods = res.food.split(",");
     	//this is checkItem
-    	callback(page, foods, eatery);
+    	notifs = true;
+    	if (res.notifs == "off") {
+    		notifs = false;
+    	}
+    	callback(page, foods, eatery, notifs);
 	});
 }
 
@@ -170,7 +174,7 @@ function getItems(callback,page, eatery) {
  * day: the day to check (should be today)
  * return: void if not found, else the time of day
  */
-function checkItem(page, foods, eatery) {
+function checkItem(page, foods, eatery, notifs) {
 	var d = new Date();
 	var day = d.getDay();
 	if (day == 0) {
@@ -188,7 +192,9 @@ function checkItem(page, foods, eatery) {
 					meal = page[i+1];
 					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
 					food = page[i].substring(1,page[i].length);
-					//notify(food, meal, eatery);
+					if (notifs) {
+						notify(food, meal, eatery);
+					}
 					var addString = "" + food + "," + expandMeal(meal) + ".";
 					toStore += addString;
 				}

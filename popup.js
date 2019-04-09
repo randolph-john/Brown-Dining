@@ -23,18 +23,37 @@ function adjustPopupSize(size) {
 }
 
 /*
+ * function to open a link based on an eatery i
+ * only used in 'addLinks' below
+ */
+function openLink(i) {
+	var URLs = ['https://dining.brown.edu/cafe/sharpe-refectory/','https://dining.brown.edu/cafe/andrews-commons/','https://dining.brown.edu/cafe/verney-woolley/','https://dining.brown.edu/cafe/blue-room/','https://dining.brown.edu/cafe/ivy-room/','https://dining.brown.edu/cafe/josiahs/'];
+	chrome.tabs.create({ url: URLs[i] });
+}
+
+/*
  * function to add links to menus
  */
 function addLinks() {
-	var URLs = ['https://dining.brown.edu/cafe/sharpe-refectory/','https://dining.brown.edu/cafe/andrews-commons/','https://dining.brown.edu/cafe/verney-woolley/','https://dining.brown.edu/cafe/blue-room/','https://dining.brown.edu/cafe/ivy-room/','https://dining.brown.edu/cafe/josiahs/'];
 	var fields = ["the Ratty", "Andrews", "the V-Dub", "the Blue Room", "the Ivy Room", "Josiah's"];
-	for (var i = 0; i < fields.length; i++) {
-		if (document.getElementById(fields[i])) {
-			theURL = URLs[i];
-		    document.getElementById(fields[i]).addEventListener('click', function() {
-		    	chrome.tabs.create({ url: theURL });
-		    });
-		}
+	// Yes, these have to be hardcoded in because for loops are messed up in async programming :/
+	if (document.getElementById(fields[0])) {
+		document.getElementById(fields[0]).onclick = function() {openLink(0)};
+	}
+	if (document.getElementById(fields[1])) {
+		document.getElementById(fields[1]).onclick = function() {openLink(1)};
+	}
+	if (document.getElementById(fields[2])) {
+		document.getElementById(fields[2]).onclick = function() {openLink(2)};
+	}
+	if (document.getElementById(fields[3])) {
+		document.getElementById(fields[3]).onclick = function() {openLink(3)};
+	}
+	if (document.getElementById(fields[4])) {
+		document.getElementById(fields[4]).onclick = function() {openLink(4)};
+	}
+	if (document.getElementById(fields[5])) {
+		document.getElementById(fields[5]).onclick = function() {openLink(5)};
 	}
 }
 
@@ -42,8 +61,6 @@ function addLinks() {
  * function to inject HTML to popup.html
  */
 function inject() {
-	//TODO: change this so that it grabs data from chrome storage, formats correctly the foods and puts them all in
-
 	html = "";
 	var URLs = ['https://dining.brown.edu/cafe/sharpe-refectory/','https://dining.brown.edu/cafe/andrews-commons/','https://dining.brown.edu/cafe/verney-woolley/','https://dining.brown.edu/cafe/blue-room/','https://dining.brown.edu/cafe/ivy-room/','https://dining.brown.edu/cafe/josiahs/'];
 	var fields = ["the Ratty", "Andrews", "the V-Dub", "the Blue Room", "the Ivy Room", "Josiah's"];
@@ -90,13 +107,13 @@ function inject() {
 	});
 }
 
-chrome.runtime.onMessage.addListener(
+/*chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log("got message");
     if (request.greeting == "hello") {
     	inject(request.f, request.m, request.e);
     }
-});
+});*/
 
 /*
  * opens the options page onclick
