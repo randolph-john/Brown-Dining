@@ -51,12 +51,13 @@ function notify(item, time, eatery) {
  function scrapePage(url, callback, eatery) {
 
 	$.get(url, function(response) {
+		console.log(response);
 	    var binStr = response;
     	var arr = binStr.split("\n");
 
     	var dayNum = 1;
     	for (var i = 0; i < arr.length; i++) {
-    		if (arr[i].includes("class=\"day cell_menu_item\"")) {
+    		if (arr[i].includes("class=\"day cell_menu_item")) {
     			dayNum++;
     		}
     		if (arr[i].includes("spacer day")) {
@@ -89,7 +90,7 @@ function notify(item, time, eatery) {
 function getMenuURL(eatery) {
 	url = getURL(eatery);
 	$.get(url, function(response) {
-		console.log(response);
+		//console.log(response);
 	    var binStr = response;
     	var arr = binStr.split("\n");
 
@@ -182,7 +183,7 @@ function checkItem(page, foods, eatery) {
 		for (index in foods) {
 			var item = foods[index];
 			for (var i = 0; i < page.length; i++) {
-				console.log(page[i]);
+				//console.log(page[i]);
 				if (page[i].includes(item) && page[i].startsWith(day.toString())) {
 					meal = page[i+1];
 					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
@@ -227,6 +228,7 @@ document.addEventListener('DOMContentLoaded', function()
 {
     var link = document.getElementById('scrape-btn');
     link.addEventListener('click', function() {
+		document.getElementById("foodInject").innerHTML = "refreshing...";
 		scrape();
 		setTimeout(function(){
 			document.getElementById("foodInject").innerHTML = "";
