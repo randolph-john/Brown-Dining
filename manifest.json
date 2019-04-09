@@ -9,15 +9,16 @@
  * - how to deal with no wifi
  *
  * TODO:
+ * - move 'scrape' (now 'refresh') button to popup
  * - fix specific meal bug (some mealtimes not found)
- * - fix urls so that they map to actual every week URLs
+ * - fix quesadilla bug (I think it happens when there is a row with empty slots)
  * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
  * - contingency plan for no WIFI
  * - add on/off checkbox for desktop alerts
  * - make text field input for feedback
  * - clean up basic UI on buttons/textbox
- * - bug fixing
+ * - QA
  * - make logo
  *** RELEASE VERSION 1
  * - obtain list of all foods at all dining halls

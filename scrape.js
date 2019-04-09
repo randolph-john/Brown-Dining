@@ -184,7 +184,6 @@ function checkItem(page, foods, eatery) {
 			for (var i = 0; i < page.length; i++) {
 				console.log(page[i]);
 				if (page[i].includes(item) && page[i].startsWith(day.toString())) {
-					alert("found " + item);
 					meal = page[i+1];
 					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
 					food = page[i].substring(1,page[i].length);
