@@ -62,12 +62,23 @@ function addLinks() {
  */
 function inject() {
 	html = "";
+	var today = new Date();
+	weekday = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+	dw = weekday[today.getDay()];
+	dd = today.getDate();
+	months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+	mm = months[today.getMonth()];
+	var yyyy = today.getFullYear();
+
+	today = "<span style='font-size:16px;font-weight:bold'>" + dw + ', ' + mm + ' ' + dd + ', ' + yyyy + '</span><br>';
+	html += today;
 	var URLs = ['https://dining.brown.edu/cafe/sharpe-refectory/','https://dining.brown.edu/cafe/andrews-commons/','https://dining.brown.edu/cafe/verney-woolley/','https://dining.brown.edu/cafe/blue-room/','https://dining.brown.edu/cafe/ivy-room/','https://dining.brown.edu/cafe/josiahs/'];
 	var fields = ["the Ratty", "Andrews", "the V-Dub", "the Blue Room", "the Ivy Room", "Josiah's"];
     chrome.storage.local.get(fields, function(res) {
 		// height: number of titles*20+number of eateries*12+button size + ?4?
-		var height = 42;
+		var height = 68;
     	// for every eatery
+    	atLeastOne = false;
     	for (var i = 0; i < fields.length; i++) {
     		// for every saved food in every eatery
     		if (res[fields[i]] != undefined) {
@@ -87,19 +98,21 @@ function inject() {
 	    				}
 	    			}
 	    			capped = fields[i].charAt(0).toUpperCase() + fields[i].slice(1)
-	    			height += 29;
+	    			height += 24;
 		        	html += "<strong><span style='color:blue;font-size:20px' id=\"" + fields[i] + "\"><a>" + capped + "</a></span></strong>";
 	        		for (x in byMeal) {
 	        			height += 22;
 	        			html += "<br><strong>" + x + ": </strong>";
 	        			html += byMeal[x] + " ";
 	        		}
-		    		html += "<br>";		
+		    		html += "<br>";	
+    				atLeastOne = true;	
     			}
     		}
     	}
-    	if (fields.length == 0) {
+    	if (!atLeastOne) {
     		html = "No foods found today.";
+    		height+= 18;
     	}
 		document.getElementById("foodInject").innerHTML += html;
 		adjustPopupSize(height);

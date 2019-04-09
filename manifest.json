@@ -3,12 +3,9 @@
  * 2019
  * project of John Randolph
  *
- * Design questions:
- * - do we want to say the time of the food as 'lunch' or as 11-2?
- * - communicate with a sinlge tile each morning + list onclick
- * - how to deal with no wifi
- *
  * TODO:
+ * - add message if no foods found
+ * - add day up on top of popup
  * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
  * - contingency plan for no WIFI
@@ -19,7 +16,7 @@
  * - make logo
  *** RELEASE VERSION 1
  * - obtain list of all foods at all dining halls
- * - fix UI of putting in food preferences
+ * - upgrade UI of putting in food preferences
  */
 
 {

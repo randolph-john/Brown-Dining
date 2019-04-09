@@ -186,17 +186,19 @@ function checkItem(page, foods, eatery, notifs) {
 		var toStore = "";
 		for (index in foods) {
 			var item = foods[index];
-			for (var i = 0; i < page.length; i++) {
-				//console.log(page[i]);
-				if (page[i].includes(item) && page[i].startsWith(day.toString())) {
-					meal = page[i+1];
-					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
-					food = page[i].substring(1,page[i].length);
-					if (notifs) {
-						notify(food, meal, eatery);
+			if (item != "") {
+				for (var i = 0; i < page.length; i++) {
+					//console.log(page[i]);
+					if (page[i].includes(item) && page[i].startsWith(day.toString())) {
+						meal = page[i+1];
+						meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
+						food = page[i].substring(1,page[i].length);
+						if (notifs) {
+							notify(food, meal, eatery);
+						}
+						var addString = "" + food + "," + expandMeal(meal) + ".";
+						toStore += addString;
 					}
-					var addString = "" + food + "," + expandMeal(meal) + ".";
-					toStore += addString;
 				}
 			}
 		}
