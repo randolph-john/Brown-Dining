@@ -9,7 +9,6 @@
  * - how to deal with no wifi
  *
  * TODO:
- * - fix specific meal bug (some mealtimes not found)
  * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
  * - contingency plan for no WIFI

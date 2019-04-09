@@ -66,7 +66,7 @@ function notify(item, time, eatery) {
     		arr[i] = arr[i].replace("<strong>","<strong>"+dayNum);
     	}
     	var items = arr.filter(function(line) {
-    		return line.includes("<strong>") && !line.includes("<span class=\"collapsed\">");
+    		return (line.includes("<strong>") && !line.includes("<span class=\"collapsed\">")) || line.includes("daypart-abbr");
     	});
     	for (var i = 0; i < items.length; i++) {
     		items[i] = items[i].replace("<strong>","");
@@ -189,7 +189,6 @@ function checkItem(page, foods, eatery) {
 					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
 					food = page[i].substring(1,page[i].length);
 					//notify(food, meal, eatery);
-					//TODO: change this to recording which foods are found, then move to a single storage update at the end of the for loop  
 					var addString = "" + food + "," + expandMeal(meal) + ".";
 					toStore += addString;
 				}
