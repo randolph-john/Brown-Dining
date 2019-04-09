@@ -24,7 +24,7 @@ var Eatery = {
  */
 function notify(item, time, eatery) {
 	if (!Notification) {
-		alert('Desktop notifications not available in your browser. Try Chromium.'); 
+		alertify.alert('Desktop notifications not available in your browser. Try Chromium.'); 
 		return;
 	}
 
@@ -187,11 +187,10 @@ function checkItem(page, foods, eatery) {
 					meal = page[i+1];
 					meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
 					food = page[i].substring(1,page[i].length);
-					notify(food, meal, eatery);
+					//notify(food, meal, eatery);
 					//TODO: change this to recording which foods are found, then move to a single storage update at the end of the for loop  
 					var addString = "" + food + "," + expandMeal(meal) + ".";
 					toStore += addString;
-
 				}
 			}
 		}
@@ -229,5 +228,11 @@ document.addEventListener('DOMContentLoaded', function()
     var link = document.getElementById('scrape-btn');
     link.addEventListener('click', function() {
 		scrape();
+		setTimeout(function(){
+			document.getElementById("foodInject").innerHTML = "";
+			setTimeout(function(){
+				inject();
+			}, 100);
+		}, 3000);
     });
 });

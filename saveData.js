@@ -1,27 +1,4 @@
 /**
- * function to push the data to the server
- * alerts when done, successful or unsuccessful, sometimes...
- */
-function pushToServer(data)
-{
-  $.ajax({
-      type: 'POST',
-      data: data,
-      success: function(data) {
-      }
-    })
-    .done(function() {
-      alertify.alert("Successfully saved your foods to the server!");
-    })
-    .fail(function() {
-      alertify.alert("Error");
-    })
-    .always(function() {
-      //alert("Complete");
-    });
-}
-
-/**
  * function to save the foods the user has inputted to chrome
  */
 function saveData() {
@@ -30,7 +7,7 @@ function saveData() {
   // save to chrome data
   // to save across devices use: chrome.storage.sync.set
   chrome.storage.local.set(data, function () {
-    pushToServer(data);
+    alertify.alert("Prefernces saved");
   });
 }
 
