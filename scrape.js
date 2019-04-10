@@ -51,7 +51,7 @@ function notify(item, time, eatery) {
  function scrapePage(url, callback, eatery) {
 
 	$.get(url, function(response) {
-		console.log(response);
+		//console.log(response);
 	    var binStr = response;
     	var arr = binStr.split("\n");
 
@@ -143,8 +143,10 @@ function expandMeal(short) {
 		return "Brunch";
 	} else	if (short == 'Ln') {
 		return "Late night";
-	} else	if (short == 'L, D') {
+	} else if (short == 'L, D') {
 		return "Lunch and dinner";
+	} else if (short == "CB") {
+		return "Continental Breakfast";
 	} else {
 		console.log("error expanding meal. Could not expand " + short);
 		return "Unknown time";

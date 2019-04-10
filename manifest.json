@@ -4,8 +4,6 @@
  * project of John Randolph
  *
  * TODO:
- * - add message if no foods found
- * - add day up on top of popup
  * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
  * - contingency plan for no WIFI
