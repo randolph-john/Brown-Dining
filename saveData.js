@@ -16,8 +16,20 @@ function saveData() {
   });
 }
 
+/**
+ * function to send feedback email
+ */
+function sendEmail() {
+  subject = "Brown Dining Service Feedback or Bug Report";
+  body = "DATA: Foods: " + document.getElementById('foodInput').value + ";enable_notifications: " + document.getElementById('enable_notifications').checked + "          Please enter message below:";
+  window.open('mailto:john_randolph@brown.edu?subject=' + subject  + '&body=' + body);
+}
+
 // save data when save button is clicked on
 document.getElementById('save-btn').onclick = saveData;
+
+// send email
+document.getElementById('feedback-btn').onclick = sendEmail;
 
 document.addEventListener('DOMContentLoaded', function()
 {
