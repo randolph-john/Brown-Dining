@@ -19,7 +19,6 @@
 }
 
 * {
-	/*background-color:#b3ffff;*/
 	text-align:center;
 	font-family: Verdana, Helvetica;
 }
@@ -44,31 +43,6 @@ h4 {
 	display:block;
 }
 
-.jr-dropdown {
-	width:45px;
-	height:35px;
-	align-self: center;
-	border-radius:5px;
-	box-shadow: 0px;
-	text-shadow: 0px;
-	border-width: 1px;
-	border-color: lightyellow;
-	margin-left:15px;
-}
-
-.jr-text-box {
-	max-width: 5000px;
-	width:400px;
-	height:35px;
-	align-self: center;
-	border-radius:5px;
-	box-shadow: 0px;
-	text-shadow: 0px;
-	border-width: 1px;
-	border-color: lightyellow;
-	margin-left:15px;
-}
-
 .form-group {
 	text-align:left;
 }
@@ -85,36 +59,6 @@ body {
 	width: 100%;
 	background-color:#dfe5ec;/*a light, desaturated blue*/
 }
-p {
-	padding-left:10%;
-	padding-right:20%;
-}
-.homeMainText {
-	text-align:center;
-}
-.makeRed {
-	color:#c91d1d;
-}
-.makeGreen {
-	color:#1f7a1f;
-}
-.jumboText {
-	text-align:center;
-	font-size:16px;
-	margin-left:60px;
-	margin-right:60px;
-}
-#linklink {
-	color:#c91d1d;
-}
-#linklink:hover {
-	color:#1f7a1f;
-	text-decoration:none;
-}
-#linklink:active {
-	color:#0f3d0f;
-}
-
 #terms {
 	visibility: hidden;
 }
@@ -129,30 +73,10 @@ p {
 #revealLink:hover #terms {
     display:block;
 }
-
-#toForm {
-	font-size: 2em;
-	/*padding:5%;*/
-	border-radius:10px;
-	height:100px;
-	width:240px;
-	border-width:3px;
-	/*background-color:#1a88ff;/*a nice blue*/
-	/*color:#1a1a1a;/*a very dark gray*/
-}
 .jumbotron {
 	display: block;
 }
 
 div {
 	margin: 30px;
-}
-
-h1 {
-	text-align: center;
-}
-h3 {
-	text-decoration: bold;
-	color:blue;
-	text-decoration-color: blue;
 }
