@@ -7,7 +7,6 @@
  * - reorder order of functions in scrape.js (make them in order)
  * - make scrape run once per day when starting up computer
  * - contingency plan for no WIFI
- * - make make text field for instructions "how does this work"
  * - clean up basic UI on buttons/textbox
  * - QA
  * - change name + description

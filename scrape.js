@@ -145,6 +145,8 @@ function expandMeal(short) {
 		return "Late night";
 	} else if (short == 'L, D') {
 		return "Lunch and dinner";
+	} else if (short == 'L, Ln') {
+		return "Lunch and late night";
 	} else if (short == "CB") {
 		return "Continental Breakfast";
 	} else {
