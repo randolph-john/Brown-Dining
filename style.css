@@ -1,11 +1,15 @@
-
 #popup {
 	min-width:400px;
 	min-height:40px;
 	max-width:100%;
 	max-height:100%;
 }
-
+#beta {
+	color:#cccccc;
+	font-size:22px;
+	font-family:Verdana;
+	font-weight:bold;
+}
 .row {
 	margin:0px;
 	border:0px;
@@ -17,23 +21,16 @@
 	border:0px;
 	padding:0px;
 }
-
 #tips-link {
 	text-decoration: underline;
 	color:#aaaaaa;
 }
-
 #tips-div {
 	display: none;
 }
-
 * {
 	text-align:center;
 	font-family: Verdana, Helvetica;
-}
-
-h1 {
-	text-align: center;
 }
 h2 {
 	font-size:200px;
@@ -43,7 +40,6 @@ h2 {
 h4 {
 	font-size:20px;
 }
-
 .dividerLine {
 	height:2px;
 	width:80%;
@@ -52,41 +48,15 @@ h4 {
 	margin-bottom:40px;
 	display:block;
 }
-
 .form-group {
 	text-align:left;
 }
-
-hr {
-	height:10px;
-	font-color:blue;
-}
-
 body {
 	display: table;
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	background-color:#dfe5ec;/*a light, desaturated blue*/
 }
-#terms {
-	visibility: hidden;
-}
-#revealLink {
-	color:#c91d1d;
-	/*text-decoration:underline;*/
-}
-#revealLink:hover {
-	color:#1f7a1f;
-	text-decoration:none;
-}
-#revealLink:hover #terms {
-    display:block;
-}
-.jumbotron {
-	display: block;
-}
-
 div {
 	margin: 30px;
 }

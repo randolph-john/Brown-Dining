@@ -46,6 +46,7 @@ document.getElementById('feedback-btn').onclick = sendEmail;
 // show or hide tips + mistakes onclick
 document.getElementById('tips-link').onclick = showHide;
 
+//on load, autofill
 document.addEventListener('DOMContentLoaded', function()
 {
   chrome.storage.local.get(['food','notifs'], function(res) {

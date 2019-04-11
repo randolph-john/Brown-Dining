@@ -4,13 +4,12 @@
  * project of John Randolph
  *
  * TODO:
- * - reorder order of functions in scrape.js (make them in order)
+ * - update readme
  * - make scrape run once per day when starting up computer
  * - contingency plan for no WIFI
- * - clean up basic UI on buttons/textbox
- * - QA
  * - change name + description
  * - make logo
+ * - QA
  *** RELEASE VERSION 1
  * - obtain list of all foods at all dining halls
  * - upgrade UI of putting in food preferences

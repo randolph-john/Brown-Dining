@@ -16,6 +16,10 @@ var Eatery = {
 	}
 };
 
+
+
+ /********************************** HELPER FUNCTIONS ******************************************/
+
 /**
  * function to send a desktop notification to the user
  * item: the food item
@@ -42,16 +46,104 @@ function notify(item, time, eatery) {
 	}
 }
 
-/*
- * scrapes and returns the raw html from the page whose URL is passed in
- * url: the url to grab, as a string
- * day: the day of the week, as an int (1-7)
- * return: array in the form: even numbered indices are dayNum+food, odd numbered indices are dayNum+[Meal]
+/* 
+ * function that converts characters to full strings
+ * short: the short key to be converted
+ * return: the longer version of the name of the meal
  */
- function scrapePage(url, callback, eatery) {
+function expandMeal(short) {
+	if (short == 'B') {
+		return "Breakfast";
+	} else if (short == 'L') {
+		return "Lunch";
+	} else if (short == 'D') {
+		return "Dinner";
+	} else if (short == 'Br') {
+		return "Brunch";
+	} else	if (short == 'Ln') {
+		return "Late night";
+	} else if (short == 'L, D') {
+		return "Lunch and dinner";
+	} else if (short == 'L, Ln') {
+		return "Lunch and late night";
+	} else if (short == "CB") {
+		return "Continental Breakfast";
+	} else {
+		console.log("error expanding meal. Could not expand " + short);
+		return "Unknown time";
+	}
+}
 
+/*
+ * function to get URL based on eatery
+ * eatery: the eatery
+ * return: the url, as a string
+ */
+function getURL(eatery) {
+	if (eatery == Eatery.RATTY) {
+		return 'https://dining.brown.edu/cafe/sharpe-refectory/';
+	} else if (eatery == Eatery.ANDREWS) {
+		return 'https://dining.brown.edu/cafe/andrews-commons/';
+	} else if (eatery == Eatery.VDUB) {
+		return 'https://dining.brown.edu/cafe/verney-woolley/';
+	} else if (eatery == Eatery.BLUE) {
+		return 'https://dining.brown.edu/cafe/blue-room/';
+	} else if (eatery == Eatery.IVY) {
+		return 'https://dining.brown.edu/cafe/ivy-room/';
+	} else if (eatery == Eatery.JOS) {
+		return 'https://dining.brown.edu/cafe/josiahs/';
+	} else {
+		throw "getURL of eatery is broken. Eatery passed in is likely not an Eatery Enum";
+	}
+}
+
+
+
+ /********************************** SCRAPING FUNCTIONS ******************************************/
+
+/*
+ * function to scrape
+ * invoked as start of program. Calls getMenuURL
+ */
+function scrape() {
+	var Eateries = [Eatery.RATTY, Eatery.ANDREWS, Eatery.VDUB, Eatery.BLUE, Eatery.IVY, Eatery.JOS]
+	for (eatery in Eateries) {
+		//first clear the saved data about this eatery
+		//now perform the scrape of that eatery
+		getMenuURL(Eateries[eatery]);
+	}
+}
+
+/*
+ * function to get url of menu page. Calls scrapePage
+ * eatery: the eatery, as an Enum
+ */
+function getMenuURL(eatery) {
+	url = getURL(eatery);
 	$.get(url, function(response) {
 		//console.log(response);
+	    var binStr = response;
+    	var arr = binStr.split("\n");
+
+    	var items = arr.filter(function(line) {
+    		return line.includes("hidden-small");
+    	});
+    	//items is array with only one element - line with url
+    	menuURL = items[0].slice(items[0].indexOf("href")+6, items[0].indexOf("target")-2);
+		scrapePage(menuURL, eatery);
+   });
+
+}
+
+/*
+ * scrapes the raw html from the page whose URL is passed in.
+ * Then parses the data and passes to getItems.
+ * url: the url to grab, as a string
+ * eatery: the eatery to check
+ */
+ function scrapePage(url, eatery) {
+
+	$.get(url, function(response) {
 	    var binStr = response;
     	var arr = binStr.split("\n");
 
@@ -79,107 +171,37 @@ function notify(item, time, eatery) {
     		items[i] = items[i].replace("</div>","");
     		items[i] = items[i].trim();
     	}
-    	getItems(callback, items, eatery);
+    	getItems(items, eatery);
    });
 };
 
 /*
- * function to get url of menu page
- * eatery: the eatery, as an Enum
+ * function to get the list of foods we want to check and pass on to checkItem
+ * page: the (cleaned) HTML page, as an array of strings
+ * eatery: the eatery to check
  */
-function getMenuURL(eatery) {
-	url = getURL(eatery);
-	$.get(url, function(response) {
-		//console.log(response);
-	    var binStr = response;
-    	var arr = binStr.split("\n");
-
-    	var items = arr.filter(function(line) {
-    		return line.includes("hidden-small");
-    	});
-    	//items is array with only one element - line with url
-    	menuURL = items[0].slice(items[0].indexOf("href")+6, items[0].indexOf("target")-2);
-		scrapePage(menuURL, checkItem, eatery);
-   });
-
-}
-
-/*
- * function to get URL based on eatery
- * eatery: the eatery
- * return: the url, as a string
- */
-function getURL(eatery) {
-	if (eatery == Eatery.RATTY) {
-		return 'https://dining.brown.edu/cafe/sharpe-refectory/';
-	} else if (eatery == Eatery.ANDREWS) {
-		return 'https://dining.brown.edu/cafe/andrews-commons/';
-	} else if (eatery == Eatery.VDUB) {
-		return 'https://dining.brown.edu/cafe/verney-woolley/';
-	} else if (eatery == Eatery.BLUE) {
-		return 'https://dining.brown.edu/cafe/blue-room/';
-	} else if (eatery == Eatery.IVY) {
-		return 'https://dining.brown.edu/cafe/ivy-room/';
-	} else if (eatery == Eatery.JOS) {
-		return 'https://dining.brown.edu/cafe/josiahs/';
-	} else {
-		throw "getURL of eatery is broken. Eatery passed in is likely not an Eatery Enum";
-	}
-}
-
-/* 
- * function that converts characters to full strings
- * shortKey: the short key to be converted
- * return: the longer version of the name
- */
-function expandMeal(short) {
-	if (short == 'B') {
-		return "Breakfast";
-	} else if (short == 'L') {
-		return "Lunch";
-	} else if (short == 'D') {
-		return "Dinner";
-	} else if (short == 'Br') {
-		return "Brunch";
-	} else	if (short == 'Ln') {
-		return "Late night";
-	} else if (short == 'L, D') {
-		return "Lunch and dinner";
-	} else if (short == 'L, Ln') {
-		return "Lunch and late night";
-	} else if (short == "CB") {
-		return "Continental Breakfast";
-	} else {
-		console.log("error expanding meal. Could not expand " + short);
-		return "Unknown time";
-	}
-}
-
-/*
- * function to grab, parse, and return what foods the user has saved
- */
-function getItems(callback,page, eatery) {
+function getItems(page, eatery) {
 	var fields = ['food','notifs'];
     chrome.storage.local.get(fields, function(res) {
     	foods = res.food.split(",");
     	for (var i = 0; i < foods.length; i++) {
     		foods[i] = foods[i].trim();
     	}
-    	//this is checkItem
     	notifs = true;
     	if (res.notifs == "off") {
     		notifs = false;
     	}
-    	callback(page, foods, eatery, notifs);
+    	checkItem(page, foods, eatery, notifs);
 	});
 }
 
 /*
  * function to check whether a specific item is available at an eatery at a certain day
- * eatery: the eatery to check
- * item: the item to check
- * day: the day to check (should be today)
- * return: void if not found, else the time of day
+ * alerts and stores any found foods.
+ * page: the HTML of a page, as an array of strings
+ * foods: array of foods to check for
+ * eatery: the eatery we are checking
+ * notifs: true if the user desires notifs
  */
 function checkItem(page, foods, eatery, notifs) {
 	var d = new Date();
@@ -222,22 +244,11 @@ function checkItem(page, foods, eatery, notifs) {
 }
 
 
+ /********************************** ADDING LISTENER ******************************************/
+
 /*
- * function to scrape
+ * on load, add function on clicking the scrape button
  */
-function scrape() {
-	var Eateries = [Eatery.RATTY, Eatery.ANDREWS, Eatery.VDUB, Eatery.BLUE, Eatery.IVY, Eatery.JOS]
-	for (eatery in Eateries) {
-		//first clear the saved data about this eatery
-		//now perform the scrape of that eatery
-		getMenuURL(Eateries[eatery]);
-	}
-}
-
-//alternate way to do thing onclick
-//document.getElementById('scrape-btn').onclick = scrape();
-
-//alternate way to do thing onclick
 document.addEventListener('DOMContentLoaded', function()
 {
     var link = document.getElementById('scrape-btn');
