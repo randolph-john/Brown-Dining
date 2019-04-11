@@ -23,6 +23,10 @@
 	color:#aaaaaa;
 }
 
+#tips-div {
+	display: none;
+}
+
 * {
 	text-align:center;
 	font-family: Verdana, Helvetica;

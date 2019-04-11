@@ -24,7 +24,7 @@ var Eatery = {
  */
 function notify(item, time, eatery) {
 	if (!Notification) {
-		alertify.alert('Desktop notifications not available in your browser. Try Chromium.'); 
+		alert('Desktop notifications not available in your browser. Try Chromium.'); 
 		return;
 	}
 

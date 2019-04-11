@@ -12,7 +12,7 @@ function saveData() {
   // save to chrome data
   // to save across devices use: chrome.storage.sync.set
   chrome.storage.local.set(data, function () {
-    alertify.alert("Settings saved");
+    alert("Settings saved");
   });
 }
 
@@ -25,11 +25,26 @@ function sendEmail() {
   window.open('mailto:john_randolph@brown.edu?subject=' + subject  + '&body=' + body);
 }
 
+/**
+ * function to show or hide div
+ */
+function showHide() {
+  var x = document.getElementById("tips-div");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
 // save data when save button is clicked on
 document.getElementById('save-btn').onclick = saveData;
 
 // send email
 document.getElementById('feedback-btn').onclick = sendEmail;
+
+// show or hide tips + mistakes onclick
+document.getElementById('tips-link').onclick = showHide;
 
 document.addEventListener('DOMContentLoaded', function()
 {
