@@ -39,13 +39,13 @@
 <body ng-controller="mainController as main">
 	<script src="angular.min.js"></script>
 	<script type="text/javascript" src = "AngularApp.js"></script>
-	<h2><span style="font-family:Helvetica">Brown Dining Alert</span><span style="color:#cccccc;font-size:22px;font-family:Verdana;font-weight:bold"> BETA</span></h2>
+	<h2><span>Brown Dining Alert</span><span style="color:#cccccc;font-size:22px;font-family:Verdana;font-weight:bold"> BETA</span></h2>
 
 	<div class="dividerLine"></div>
 
 	<div>
-	<p>Welcome to Brown Dining Service.</p>
-	<p>Input foods you want alerts on below, comma separated with no spaces between foods.</p>
+	<h3>Favorite foods</h3>
+	<p>Enter foods <strong>comma separated</strong>.</p>
 	<textarea id="foodInput", style="width:600px;height:140px">pancakes,beef stew</textarea>
 	<p></p>
 	<div class="checkbox">
@@ -53,6 +53,13 @@
 	</div>
 	<button class="btn btn-primary" id="save-btn">save</button>
 	</div>
+	<p ng-click="inputCtrl.terms = !inputCtrl.terms" id="tips-link"> Tips & Common Mistakes</p>
+	<p ng-show="inputCtrl.terms"> - Ensure that all your foods are separated by commas. Example: "blueberry pancakes, pie, chicken and waffles, donut".</p>
+	<p ng-show="inputCtrl.terms"> - Ensure that your spelling is correct</p>
+	<p ng-show="inputCtrl.terms"> - Ensure that you have WIFI and that <a href="https://dining.brown.edu">dining.brown.edu</a> is up.</p>
+	<p ng-show="inputCtrl.terms"> - You may put parts of food names, so "pancakes" will pick up "blueberry pancakes", "chololate chip pancakes", etc</p>
+	<p ng-show="inputCtrl.terms"> - It may be necessary to hit the refresh button multiple times</p>
+	<p ng-show="inputCtrl.terms"> - If you're having a bug or have feedback, please hit the bug/feedback button below!</p>
 	<div class="dividerLine"></div>
 	<div>
 		<p>This is a project by John Randolph. All rights reserved.<button class="btn btn-link" id="feedback-btn">Report bug or give feedback</button></p>

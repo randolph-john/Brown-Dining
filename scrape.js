@@ -160,6 +160,9 @@ function getItems(callback,page, eatery) {
 	var fields = ['food','notifs'];
     chrome.storage.local.get(fields, function(res) {
     	foods = res.food.split(",");
+    	for (var i = 0; i < foods.length; i++) {
+    		foods[i] = foods[i].trim();
+    	}
     	//this is checkItem
     	notifs = true;
     	if (res.notifs == "off") {

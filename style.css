@@ -18,6 +18,11 @@
 	padding:0px;
 }
 
+#tips-link {
+	text-decoration: underline;
+	color:#aaaaaa;
+}
+
 * {
 	text-align:center;
 	font-family: Verdana, Helvetica;
@@ -28,7 +33,8 @@ h1 {
 }
 h2 {
 	font-size:200px;
-	color:red;
+	font-family:Helvetica;
+	font-weight:bold;
 }
 h4 {
 	font-size:20px;
