@@ -222,6 +222,7 @@ function checkItem(page, foods, eatery, notifs) {
 						meal = page[i+1];
 						meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
 						food = page[i].substring(1,page[i].length);
+						food = food.replace(".","");
 						if (notifs) {
 							notify(food, meal, eatery);
 						}
