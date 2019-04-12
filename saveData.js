@@ -50,7 +50,9 @@ document.getElementById('tips-link').onclick = showHide;
 document.addEventListener('DOMContentLoaded', function()
 {
   chrome.storage.local.get(['food','notifs'], function(res) {
-    document.getElementById('foodInput').value = res.food;
+    if (res.food) {
+      document.getElementById('foodInput').value = res.food;
+    }
     if (res.notifs == "off") {
       document.getElementById('enable_notifications').checked = false;
     }

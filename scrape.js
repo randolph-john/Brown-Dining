@@ -52,6 +52,14 @@ function notify(item, time, eatery) {
  * return: the longer version of the name of the meal
  */
 function expandMeal(short) {
+	if (short.includes(",")) {
+		long = "";
+		for (i = 0; i < short.split(",").length-1; i++) {
+			long += expandMeal(short.split(",")[i].trim()) + " & ";
+		}
+		long += expandMeal(short.split(",")[short.split(",").length-1].trim());
+		return long;
+	}
 	if (short == 'B') {
 		return "Breakfast";
 	} else if (short == 'L') {
@@ -62,12 +70,6 @@ function expandMeal(short) {
 		return "Brunch";
 	} else	if (short == 'Ln') {
 		return "Late night";
-	} else if (short == 'L, D') {
-		return "Lunch and dinner";
-	} else if (short == 'L, Ln') {
-		return "Lunch and late night";
-	} else if (short == "CB") {
-		return "Continental Breakfast";
 	} else {
 		console.log("error expanding meal. Could not expand " + short);
 		return "Unknown time";
@@ -104,21 +106,23 @@ function getURL(eatery) {
 /*
  * function to scrape
  * invoked as start of program. Calls getMenuURL
+ * notifs: true if it is an automatic scrape (vs a manual scrape)
  */
-function scrape() {
+function scrape(notifs) {
 	var Eateries = [Eatery.RATTY, Eatery.ANDREWS, Eatery.VDUB, Eatery.BLUE, Eatery.IVY, Eatery.JOS]
 	for (eatery in Eateries) {
 		//first clear the saved data about this eatery
 		//now perform the scrape of that eatery
-		getMenuURL(Eateries[eatery]);
+		getMenuURL(Eateries[eatery], notifs);
 	}
 }
 
 /*
  * function to get url of menu page. Calls scrapePage
  * eatery: the eatery, as an Enum
+ * notifs: true if it is an automatic scrape (vs a manual scrape)
  */
-function getMenuURL(eatery) {
+function getMenuURL(eatery, notifs) {
 	url = getURL(eatery);
 	$.get(url, function(response) {
 		//console.log(response);
@@ -130,7 +134,7 @@ function getMenuURL(eatery) {
     	});
     	//items is array with only one element - line with url
     	menuURL = items[0].slice(items[0].indexOf("href")+6, items[0].indexOf("target")-2);
-		scrapePage(menuURL, eatery);
+		scrapePage(menuURL, eatery, notifs);
    });
 
 }
@@ -140,8 +144,9 @@ function getMenuURL(eatery) {
  * Then parses the data and passes to getItems.
  * url: the url to grab, as a string
  * eatery: the eatery to check
+ * notifs: true if it is an automatic scrape (vs a manual scrape)
  */
- function scrapePage(url, eatery) {
+ function scrapePage(url, eatery, notifs) {
 
 	$.get(url, function(response) {
 	    var binStr = response;
@@ -171,7 +176,7 @@ function getMenuURL(eatery) {
     		items[i] = items[i].replace("</div>","");
     		items[i] = items[i].trim();
     	}
-    	getItems(items, eatery);
+    	getItems(items, eatery, notifs);
    });
 };
 
@@ -179,15 +184,19 @@ function getMenuURL(eatery) {
  * function to get the list of foods we want to check and pass on to checkItem
  * page: the (cleaned) HTML page, as an array of strings
  * eatery: the eatery to check
+ * notifs: true if it is an automatic scrape (vs a manual scrape)
  */
-function getItems(page, eatery) {
+function getItems(page, eatery, notifs) {
 	var fields = ['food','notifs'];
     chrome.storage.local.get(fields, function(res) {
-    	foods = res.food.split(",");
+    	if (res.food) {
+    		foods = res.food.split(",");
+    	} else {
+    		foods = ["chicken","pancakes"];
+    	}
     	for (var i = 0; i < foods.length; i++) {
     		foods[i] = foods[i].trim();
     	}
-    	notifs = true;
     	if (res.notifs == "off") {
     		notifs = false;
     	}
@@ -244,23 +253,29 @@ function checkItem(page, foods, eatery, notifs) {
 	});
 }
 
+ /********************************** SCRAPE ONCE A DAY ******************************************/
 
- /********************************** ADDING LISTENER ******************************************/
-
-/*
- * on load, add function on clicking the scrape button
- */
-document.addEventListener('DOMContentLoaded', function()
-{
-    var link = document.getElementById('scrape-btn');
-    link.addEventListener('click', function() {
-		document.getElementById("foodInject").innerHTML = "refreshing...";
-		scrape();
-		setTimeout(function(){
-			document.getElementById("foodInject").innerHTML = "";
-			setTimeout(function(){
-				inject();
-			}, 100);
-		}, 3000);
+// event: called when extension is installed or updated or Chrome is updated
+function onInstalled() {
+    // CREATE ALARMS HERE
+	var nd = new Date();
+	nd.setHours(4);
+	nd.setMinutes(0);
+	nd.setDate(nd.getDate()+1);
+    chrome.alarms.create('scrapeIt', {
+        when: nd.getTime(), //this value should be the next day at 4 AM
+        periodInMinutes: 1440
     });
-});
+}
+
+// event: alarm raised
+function onAlarm(alarm) {
+    alert("scraping from alarm");
+    scrape(true);
+}
+
+// listen for extension install or update
+chrome.runtime.onInstalled.addListener(onInstalled);
+
+// listen for alarms
+chrome.alarms.onAlarm.addListener(onAlarm);

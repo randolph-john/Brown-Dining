@@ -5,12 +5,16 @@
  *
  * TODO:
  * - update README
- * - make scrape run once per day when starting up computer
- * - contingency plan for no WIFI
+ * - ensure daily scrape works
  * - change name + description
  * - make logo
  * - QA
+ *   - at start, scraping when food is empty
  *** RELEASE VERSION 1
+ * - fix bugs
+ *    - put meals in order
+ *    - when meal is found twice it is put in twice
+ *    - if line is too long overflow is not accounted for
  * - obtain list of all foods at all dining halls
  * - upgrade UI of putting in food preferences
  */
@@ -28,7 +32,7 @@
   },
   "content_security_policy": "script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js; object-src 'self'",
   "background" : {
-    "scripts" : ["background.js"]//always runs in background
+    "scripts" : ["scrape.js"]//always runs in background
   },
   "web_accessible_resources" : [
     "style.css"
@@ -42,6 +46,7 @@
       "background",
       "activeTab",
       "https://ajax.googleapis.com/",
-      "contextMenus"
+      "contextMenus",
+      "alarms"
   ]
 }

@@ -120,16 +120,29 @@ function inject() {
 	});
 }
 
+//inject html on load
+document.addEventListener('DOMContentLoaded', inject());
+
+ /********************************** ADDING LISTENER ******************************************/
+
 /*
- * opens the options page onclick
+ * on load, add function on clicking the scrape button
  */
 document.addEventListener('DOMContentLoaded', function()
 {
-    var link = document.getElementById('options-btn');
-    link.addEventListener('click', function() {
+	var l = document.getElementById('options-btn');
+    l.addEventListener('click', function() {
       chrome.runtime.openOptionsPage();
     });
+    var link = document.getElementById('scrape-btn');
+    link.addEventListener('click', function() {
+		document.getElementById("foodInject").innerHTML = "refreshing...";
+		scrape(false);
+		setTimeout(function(){
+			document.getElementById("foodInject").innerHTML = "";
+			setTimeout(function(){
+				inject();
+			}, 100);
+		}, 3000);
+    });
 });
-
-//inject html on load
-document.addEventListener('DOMContentLoaded', inject());
