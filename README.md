@@ -4,6 +4,7 @@ This is a **chome extension** that alerts the user when their favorite foods are
 ### Structure
  Manifest.json              => sets permissions and settings; calls other files
   ├── options_page.html 	=> html of the settings page
+  
   |		└── saveData.js 	=> autofills user data; saves user input to chrome; adds dynamicism to buttons
   ├── popup.html 			=> html of the popup box
   |		└── popup.js        => injects foods; adds dynamicism to buttons
