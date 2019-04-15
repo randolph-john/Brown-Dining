@@ -17,7 +17,6 @@ var Eatery = {
 };
 
 
-
  /********************************** HELPER FUNCTIONS ******************************************/
 
 /**
@@ -68,8 +67,10 @@ function expandMeal(short) {
 		return "Dinner";
 	} else if (short == 'Br') {
 		return "Brunch";
-	} else	if (short == 'Ln') {
+	} else if (short == 'Ln') {
 		return "Late night";
+	} else if (short == 'CB') {
+		return "Continental Breakfast";
 	} else {
 		console.log("error expanding meal. Could not expand " + short);
 		return "Unknown time";
@@ -270,6 +271,13 @@ function onInstalled() {
 
 // event: alarm raised
 function onAlarm(alarm) {
+	//include jquery
+	var script = document.createElement('script');
+	script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js';
+	script.type = 'text/javascript';
+	document.getElementsByTagName('head')[0].appendChild(script);
+
+	//alert & scrape
     alert("scraping from alarm");
     scrape(true);
 }

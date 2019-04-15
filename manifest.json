@@ -5,11 +5,9 @@
  *
  * TODO:
  * - update README
- * - ensure daily scrape works
- * - change name + description
+ * - make daily scrape work
  * - make logo
  * - QA
- *   - at start, scraping when food is empty
  *** RELEASE VERSION 1
  * - fix bugs
  *    - put meals in order
@@ -23,7 +21,7 @@
   "manifest_version": 2,
 
   "name": "Brown Dining Alert",
-  "description": "[Description goes here]",
+  "description": "The best way to receive alerts about your favorite foods at Brown University",
   "version": "1.0",
   "options_page": "options_page.html",
 
