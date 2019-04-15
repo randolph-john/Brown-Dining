@@ -5,7 +5,8 @@
 :License: Public Domain
 
 = Brown Dining Alert
-This is a *chome extension* that alerts the user when their favorite foods are served at the dining halls at *Brown University*.
+
+A *chome extension* that alerts the user when their favorite foods are served at the dining halls at *Brown University*.
 
 === Structure  
 ....
