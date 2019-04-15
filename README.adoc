@@ -1,7 +1,13 @@
-# Brown Dining Alert
-This is a **chome extension** that alerts the user when their favorite foods are served at the dining halls at **Brown University**.
+:Author: john0randolph
+:Email: john_randolph@brown.edu
+:Date: 04/15/2019
+:Revision: version beta
+:License: Public Domain
 
-### Structure  
+= Brown Dining Alert
+This is a *chome extension* that alerts the user when their favorite foods are served at the dining halls at *Brown University*.
+
+=== Structure  
 ....
  Manifest.json              => sets permissions and settings; calls other files  
  ├── options_page.html 		=> html of the settings page  
@@ -14,7 +20,7 @@ This is a **chome extension** that alerts the user when their favorite foods are
  └── README.md 				=> this file  
 ....
 
-### Usage
+=== Usage
 
 1. Install via chrome extension webstore (https://chrome.google.com/webstore)
 2. Click on popup button (right of omnibar)
@@ -26,4 +32,4 @@ This is a **chome extension** that alerts the user when their favorite foods are
 8. Click 'refresh'
 9. Any available foods will be displayed
 
-This is a project by **John Randolph** in **2019**. For complaints, bugs, or feedback, email the creator at John_Randolph@brown.edu
+This is a project by *John Randolph* in *2019*. For complaints, bugs, or feedback, email the creator at John_Randolph@brown.edu
