@@ -4,11 +4,11 @@
  * project of John Randolph
  *
  * TODO:
- * - make daily scrape work
  * - make logo
  * - QA
  *** RELEASE VERSION 1
  * - fix bugs
+ *    - make daily scrape work
  *    - put meals in order
  *    - when meal is found twice it is put in twice
  *    - if line is too long overflow is not accounted for
@@ -25,11 +25,15 @@
   "options_page": "options_page.html",
 
   "browser_action": {
+    "default_icon": "icon.png",//the icon
     "default_popup": "popup.html"//what will pop up when clicked on.
   },
   "content_security_policy": "script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js; object-src 'self'",
   "background" : {
     "scripts" : ["scrape.js"]//always runs in background
+  },
+  "icons" : {
+    "128" : "icon.png"
   },
   "web_accessible_resources" : [
     "style.css"

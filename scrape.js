@@ -278,7 +278,7 @@ function onAlarm(alarm) {
 	document.getElementsByTagName('head')[0].appendChild(script);
 
 	//alert & scrape
-    alert("scraping from alarm");
+    //alert("scraping from alarm");
     scrape(true);
 }
 
