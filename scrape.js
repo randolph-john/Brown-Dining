@@ -1,3 +1,22 @@
+/**
+ * Brown Dining Alert, version 1.0
+ * 2019
+ * project of John Randolph
+ *
+ * TODO:
+ * - QA
+ * - detailed description for chome store
+ * - screenshots for chrome store
+ *** RELEASE VERSION 1
+ * - fix bugs
+ *    - put meals in order
+ *    - when meal is found twice it is put in twice
+ *    - if line is too long overflow is not accounted for
+ * - make daily scrape work
+ * - obtain list of all foods at all dining halls
+ * - upgrade UI of putting in food preferences
+ */
+
 // class constant for the Eateries
 var Eatery = {
 	RATTY: 1,
