@@ -1,12 +1,12 @@
 :Author: john0randolph
 :Email: john_randolph@brown.edu
-:Date: 04/15/2019
-:Revision: version beta
+:Date: 04/20/2019
+:Revision: version BETA
 :License: Public Domain
 
 = Brown Dining Alert
 
-A *chome extension* that alerts the user when their favorite foods are served at the dining halls at *Brown University*.
+A *chome extension* that alerts the user when their favorite foods are served at the *Brown University* dining halls.
 
 === Structure  
 ....
@@ -23,13 +23,13 @@ A *chome extension* that alerts the user when their favorite foods are served at
 
 === Usage
 
-1. Install via chrome extension webstore (https://chrome.google.com/webstore)
-2. Click on popup button (right of omnibar)
-3. Click on 'settings' button in the popup
-4. Enter your favorite foods into the text box
-5. Select 'Enable daily desktop notifications' if desired
+1. Install via chrome extension webstore (https://chrome.google.com/webstore/detail/brown-dining-alert/bhkoklkkdillpccbofacohokndinkhoj/related?hl=en-US&gl=US&authuser=1)
+2. Click popup button (right of omnibar)
+3. Click 'settings' button in the popup
+4. Enter favorite foods into the text box
+5. Select 'Enable daily desktop notifications' for daily desktop notifications (this does not work yet)
 6. Click 'save'
-7. Click on the popup button again
+7. Click the popup button again
 8. Click 'refresh'
 9. Any available foods will be displayed
 
