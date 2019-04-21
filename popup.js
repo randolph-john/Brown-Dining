@@ -99,7 +99,7 @@ function inject() {
 	    			}
 	    			capped = fields[i].charAt(0).toUpperCase() + fields[i].slice(1)
 	    			height += 24;
-		        	html += "<strong><span style='color:blue;font-size:20px' id=\"" + fields[i] + "\"><a>" + capped + "</a></span></strong>";
+		        	html += "<strong><span style='color:blue;font-size:20px;text-decoration:underline' id=\"" + fields[i] + "\"><a>" + capped + "</a></span></strong>";
 	        		for (x in byMeal) {
 	        			height += 22;
 	        			html += "<br><strong>" + x + ": </strong>";
