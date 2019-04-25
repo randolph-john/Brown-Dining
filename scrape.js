@@ -46,7 +46,7 @@ var Eatery = {
  */
 function notify(item, time, eatery) {
 	if (!Notification) {
-		alert('Desktop notifications not available in your browser. Try Chromium.'); 
+		alert('Desktop notifications not available in your browser.'); 
 		return;
 	}
 
@@ -54,7 +54,6 @@ function notify(item, time, eatery) {
 		Notification.requestPermission();
 	else {
 		var notification = new Notification('Brown Dining Alert', {
-			// TODO: update this icon
 			icon: "icon.png",
 			body: ("Food alert: " + item + " available at " + Eatery.properties[eatery].name + " for " + expandMeal(time)),
 		});
@@ -131,8 +130,7 @@ function getURL(eatery) {
 function scrape(notifs) {
 	var Eateries = [Eatery.RATTY, Eatery.ANDREWS, Eatery.VDUB, Eatery.BLUE, Eatery.IVY, Eatery.JOS]
 	for (eatery in Eateries) {
-		//first clear the saved data about this eatery
-		//now perform the scrape of that eatery
+		//scrape for each eatery
 		getMenuURL(Eateries[eatery], notifs);
 	}
 }
@@ -145,7 +143,6 @@ function scrape(notifs) {
 function getMenuURL(eatery, notifs) {
 	url = getURL(eatery);
 	$.get(url, function(response) {
-		//console.log(response);
 	    var binStr = response;
     	var arr = binStr.split("\n");
 
@@ -167,11 +164,9 @@ function getMenuURL(eatery, notifs) {
  * notifs: true if it is an automatic scrape (vs a manual scrape)
  */
  function scrapePage(url, eatery, notifs) {
-
 	$.get(url, function(response) {
 	    var binStr = response;
     	var arr = binStr.split("\n");
-
     	var dayNum = 1;
     	for (var i = 0; i < arr.length; i++) {
     		if (arr[i].includes("class=\"day cell_menu_item")) {
@@ -240,13 +235,13 @@ function checkItem(page, foods, eatery, notifs) {
 	}
 	var data = {};//field input will go in here
 	data[Eatery.properties[eatery].name] = "";
+	//first clear the stored data
 	chrome.storage.local.set(data, function () {
 		var toStore = "";
 		for (index in foods) {
 			var item = foods[index];
 			if (item != "") {
 				for (var i = 0; i < page.length; i++) {
-					//console.log(page[i]);
 					if (page[i].includes(item) && page[i].startsWith(day.toString())) {
 						meal = page[i+1];
 						meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
@@ -264,7 +259,6 @@ function checkItem(page, foods, eatery, notifs) {
 		var fields = [Eatery.properties[eatery].name];
 	    chrome.storage.local.get(fields, function(res) {
 			var data = {};//field input will go in here
-			//data[Eatery.properties[eatery].name] = res[Eatery.properties[eatery].name] + toStore;
 			data[Eatery.properties[eatery].name] = toStore;
 			chrome.storage.local.set(data, function () {
 				//once storage has been saved
@@ -277,7 +271,6 @@ function checkItem(page, foods, eatery, notifs) {
 
 // event: called when extension is installed or updated or Chrome is updated
 function onInstalled() {
-    // CREATE ALARMS HERE
 	var nd = new Date();
 	nd.setHours(4);
 	nd.setMinutes(0);
