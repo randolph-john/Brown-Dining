@@ -3,6 +3,8 @@
  * 2019
  * project of John Randolph
  *
+ * This is a branch to work on displaying entrees in separate tab
+ * 
  * TODO:
  * - QA
  * - detailed description for chome store
