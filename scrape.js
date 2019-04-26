@@ -4,8 +4,13 @@
  * project of John Randolph
  *
  * This is a branch to work on displaying entrees in separate tab
- * 
- * TODO:
+ * DISPLAY_ENTREE TODO:
+ * scrape all values from all dining halls + save to chrome data
+ * add tab that displays all the values
+ * add list of buttons for displaying each food category
+ * hide/show based on button clicks 
+ *
+ * AFTER TODO:
  * - QA
  * - detailed description for chome store
  * - screenshots for chrome store
@@ -218,6 +223,7 @@ function getItems(page, eatery, notifs) {
     		notifs = false;
     	}
     	checkItem(page, foods, eatery, notifs);
+    	saveAll(page, eatery);
 	});
 }
 
@@ -265,6 +271,41 @@ function checkItem(page, foods, eatery, notifs) {
 			chrome.storage.local.set(data, function () {
 				//once storage has been saved
 			});
+		});
+	});
+}
+
+/*
+ * function to save all foods available at specific day
+ * page: the HTML of a page, as an array of strings
+ * eatery: the eatery we are checking
+ */
+function saveAll(page, eatery) {
+	var d = new Date();
+	var day = d.getDay();
+	if (day == 0) {
+		day = 7;
+	}
+	var data = {};//field input will go in here
+	data[("all_" + Eatery.properties[eatery].name)] = "";
+	//first clear the stored data
+	chrome.storage.local.set(data, function () {
+		var toStore = "";
+		for (var i = 0; i < page.length; i++) {
+			if (page[i].startsWith(day.toString())) {
+				meal = page[i+1];
+				meal = meal.slice(meal.indexOf("[")+1,meal.indexOf("]"));
+				food = page[i].substring(1,page[i].length);
+				food = food.replace(".","");
+				var addString = "" + food + "," + expandMeal(meal) + ".";
+				toStore += addString;
+			}
+		}
+		var data = {};//field input will go in here
+		data["all_" + Eatery.properties[eatery].name] = toStore;
+		alert("toStore is" + toStore);
+		chrome.storage.local.set(data, function () {
+			//once storage has been saved
 		});
 	});
 }
