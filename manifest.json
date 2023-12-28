@@ -24,13 +24,10 @@
   "permissions" : [
       "notifications",
       "storage",
-      "tabs",
       "https://dining.brown.edu/*",
       "https://legacy.cafebonappetit.com/*",
       "background",
-      "activeTab",
       "https://ajax.googleapis.com/",
-      "contextMenus",
       "alarms"
   ]
 }
